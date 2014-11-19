@@ -46,5 +46,5 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'Get /courses': 'CoursesController.index'
+  'GET /courses': 'CoursesController.index'
 };
