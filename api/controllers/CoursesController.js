@@ -9,6 +9,10 @@ module.exports = {
 
 	index: function(req, res) {
         return res.fill(CoursesService.getCourses(req.query.access_token));
+    },
+
+    show: function(req, res) {
+        return res.fill(CoursesService.getCourse(req.param('id'), req.query.access_token));
     }
 };
 

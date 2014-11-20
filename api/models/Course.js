@@ -9,13 +9,6 @@ module.exports = {
 
     attributes: {
 
-    },
-
-    getCourses: function (accessToken, callback) {
-        Course.find({ access_token: accessToken }).exec(function (error, courses) {
-            if (error) return callback(error);
-            callback(null, courses);
-        });
     }
 };
 

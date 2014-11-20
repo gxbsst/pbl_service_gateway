@@ -148,10 +148,10 @@ module.exports = (function() {
     pathname = config.getPathname(config, restMethod, values, options);
 
     if (options && options.where) {
-      if (options.where.id) {
+      if (options.where._id) {
         // Add id to pathname if provided
-        pathname += '/' + options.where.id;
-        delete options.where.id;
+        pathname += '/' + options.where._id;
+        delete options.where._id;
       } else if (methodName === 'destroy' || methodName === 'update') {
         // Find all and make new request for each.
         makeRequest(identity, collectionName, 'find', function(err, results) {
@@ -328,6 +328,10 @@ module.exports = (function() {
 
     create: function(connection, collectionName, values, cb) {
       makeRequest(connection, collectionName, 'create', cb, null, values);
+    },
+
+    findOne: function(connection, collectionName, options, cb) {
+        makeRequest(connection, collectionName, 'find', cb, options);
     },
 
     find: function(connection, collectionName, options, cb) {
