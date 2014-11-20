@@ -18,6 +18,6 @@ module.exports = function fill(promise) {
         if (err && err.originalError && err.originalError.code) {
             code = err.originalError.code;
         }
-        return res.send(code, {'code': code, 'message:': err.details});
+        return res.send(code, { code: code, message: err.details });
     });
 }

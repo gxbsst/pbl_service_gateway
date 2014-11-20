@@ -21,23 +21,6 @@
 
 module.exports.connections = {
 
-    /***************************************************************************
-     *                                                                          *
-     * Local disk storage for DEVELOPMENT ONLY                                  *
-     *                                                                          *
-     * Installed by default.                                                    *
-     *                                                                          *
-     ***************************************************************************/
-    localDiskDb: {
-        adapter: 'sails-disk'
-    },
-
-    /***************************************************************************
-     *                                                                          *
-     * More adapters: https://github.com/balderdashy/sails                      *
-     *                                                                          *
-     ***************************************************************************/
-
     cached_mooc: {
         adapter: 'rest',
         type: 'json',                           // expected response type (json | string | http)
