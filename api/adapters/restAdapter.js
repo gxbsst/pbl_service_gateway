@@ -203,48 +203,61 @@ module.exports = (function() {
     // Format URI
     var uri = url.format(config);
 
-    // Retrieve data from the cache
-    if (methodName === 'find') {
-      r = cache && cache.engine.get(uri);
-    }
-
-    if (r) {
-      callback(null, r);
-    } else if (_.isFunction(connection[restMethod])) {
-      var path = uri.replace(connection.url.href, '/');
-
-      var cb = function(err, req, res, data) {
+    var cb = function (err, req, res, data) {
         var restError,
-            // check if response code is in 4xx or 5xx range
+        // check if response code is in 4xx or 5xx range
             responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
 
-        if (err && ( res === undefined || res === null || responseErrorCode ) ) {
-          sails.log.error('from service. path:' + req.path + ', code: ' + res.statusCode);
-          restError = new RestError(res.statusCode, err.message, {req: req, res: res, data: data});
-          callback(restError);
+        if (err && ( res === undefined || res === null || responseErrorCode )) {
+            if (responseErrorCode) {
+                sails.log.error('from service. path:' + req.path + ', code: ' + res.statusCode);
+            }
+            restError = new RestError(res.statusCode, err.message, {req: req, res: res, data: data});
+            callback(restError);
         } else {
-          if (methodName === 'find') {
-            r = getResultsAsCollection(data, collectionName, config, definition);
-            if (cache) {
-              cache.engine.set(uri, r);
+            if (methodName === 'find') {
+                r = getResultsAsCollection(data, collectionName, config, definition);
+                if (cache) {
+                    cache.engine.set(uri, JSON.stringify(r));
+                }
+            } else {
+                r = formatResult(data, collectionName, config, definition);
+                if (cache) {
+                    cache.engine.del(uri);
+                }
             }
-          } else {
-            r = formatResult(data, collectionName, config, definition);
-            if (cache) {
-              cache.engine.del(uri);
-            }
-          }
-          callback(null, r);
+            callback(null, r);
         }
-      };
+    };
 
-      // Make request via restify
-      if (opt) {
-        connection[restMethod](path, opt, cb);
-      } else {
-        connection[restMethod](path, cb);
-      }
+    var callRequest = function() {
+        if (_.isFunction(connection[restMethod])) {
+            var path = uri.replace(connection.url.href, '/');
+
+            // Make request via restify
+            if (opt) {
+                connection[restMethod](path, opt, cb);
+            } else {
+                connection[restMethod](path, cb);
+            }
+        }
+    };
+
+    // Retrieve data from the cache
+    if (methodName === 'find') {
+        if (cache) {
+            cache.engine.get(uri, function (err, val) {
+                if (err || !val) {
+                    callRequest();
+                    return;
+                }
+                callback(null, JSON.parse(val));
+                return;
+            });
+        }
     }
+
+    callRequest();
   }
 
   // Adapter

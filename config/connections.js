@@ -21,36 +21,62 @@
 
 module.exports.connections = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Local disk storage for DEVELOPMENT ONLY                                  *
-  *                                                                          *
-  * Installed by default.                                                    *
-  *                                                                          *
-  ***************************************************************************/
-  localDiskDb: {
-    adapter: 'sails-disk'
-  },
+    /***************************************************************************
+     *                                                                          *
+     * Local disk storage for DEVELOPMENT ONLY                                  *
+     *                                                                          *
+     * Installed by default.                                                    *
+     *                                                                          *
+     ***************************************************************************/
+    localDiskDb: {
+        adapter: 'sails-disk'
+    },
 
-  /***************************************************************************
-  *                                                                          *
-  * More adapters: https://github.com/balderdashy/sails                      *
-  *                                                                          *
-  ***************************************************************************/
-  mooc: {
-    adapter: 'rest',
-    type: 'json',                         // expected response type (json | string | http)
-    host: 'testamoocs.ibridgelearn.com',  // api host
-    port: 80,                             // api port
-    protocol: 'http',                     // HTTP protocol (http | https)
-    pathname: '/api/v1',                  // base api path
-    action: null,                         // action to use for the given resource ([resource]/run)
-    methods: {                            // overrides default HTTP methods used for each CRUD action
-      create: 'post',
-      find: 'get',
-      update: 'put',
-      destroy: 'del'
+    /***************************************************************************
+     *                                                                          *
+     * More adapters: https://github.com/balderdashy/sails                      *
+     *                                                                          *
+     ***************************************************************************/
+
+    cached_mooc: {
+        adapter: 'rest',
+        type: 'json',                           // expected response type (json | string | http)
+        host: 'testamoocs.ibridgelearn.com',    // api host
+        port: 80,                               // api port
+        protocol: 'http',                       // HTTP protocol (http | https)
+        rejectUnauthorized: true,               // prevent https connections that use a self-signed certificate
+        pathname: '/api/v1',                    // base api path
+        resource: null,                         // resource path to use (overrides model name)
+        action: null,                           // action to use for the given resource ([resource]/run)
+        query: {},                              // query parameters to provide with all GET requests
+        methods: {                              // overrides default HTTP methods used for each CRUD action
+            create: 'post',
+            find: 'get',
+            update: 'put',
+            destroy: 'del'
+        },
+        cache: {
+            engine: require('./cache')
+        }
+    },
+
+    mooc: {
+        adapter: 'rest',
+        type: 'json',                           // expected response type (json | string | http)
+        host: 'testamoocs.ibridgelearn.com',    // api host
+        port: 80,                               // api port
+        protocol: 'http',                       // HTTP protocol (http | https)
+        rejectUnauthorized: true,               // prevent https connections that use a self-signed certificate
+        pathname: '/api/v1',                    // base api path
+        resource: null,                         // resource path to use (overrides model name)
+        action: null,                           // action to use for the given resource ([resource]/run)
+        query: {},                              // query parameters to provide with all GET requests
+        methods: {                              // overrides default HTTP methods used for each CRUD action
+            create: 'post',
+            find: 'get',
+            update: 'put',
+            destroy: 'del'
+        }
     }
-  }
 
 };
