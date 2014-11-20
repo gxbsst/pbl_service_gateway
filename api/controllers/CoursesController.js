@@ -8,7 +8,7 @@
 module.exports = {
 
 	index: function(req, res) {
-        return res.fulfill(CoursesService.getCourses(req.query.access_token));
+        return res.fill(CoursesService.getCourses(req.query.access_token));
     }
 };
 

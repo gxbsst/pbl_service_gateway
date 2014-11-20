@@ -2,12 +2,12 @@
  * 200 (OK) Response
  *
  * Usage:
- * return res.fulfill(promise);
+ * return res.fill(promise);
  *
  * @param  {Object} promise - promise
  */
 
-module.exports = function fulfill(promise) {
+module.exports = function fill(promise) {
 
     var res = this.res;
 
