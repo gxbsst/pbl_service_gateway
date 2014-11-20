@@ -6,14 +6,9 @@
  */
 
 module.exports = {
-	index: function(request, response) {
-        CoursesService.getCourses(request.query.access_token)
-        .then(function(courses) {
-            response.json(courses);
-        })
-        .fail(function(error) {
-            response.send(error.originalError.code, error.details);
-        });
+
+	index: function(req, res) {
+        return res.fulfill(CoursesService.getCourses(req.query.access_token));
     }
 };
 

@@ -215,17 +215,14 @@ module.exports = (function() {
             restError = new RestError(res.statusCode, err.message, {req: req, res: res, data: data});
             callback(restError);
         } else {
+            r = formatResult(data, collectionName, config, definition);
+
             if (methodName === 'find') {
-                r = getResultsAsCollection(data, collectionName, config, definition);
                 if (cache) {
                     cache.engine.set(uri, JSON.stringify(r));
                 }
-            } else {
-                r = formatResult(data, collectionName, config, definition);
-                if (cache) {
-                    cache.engine.del(uri);
-                }
             }
+
             callback(null, r);
         }
     };
