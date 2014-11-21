@@ -1,14 +1,14 @@
 /**
- * HomeController
+ * UsersController
  *
- * @description :: Server-side logic for managing homes
+ * @description :: Server-side logic for managing Users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
 module.exports = {
 
   index: function (req, res) {
-    return res.ok('PBL service gateway are running.');
+    return res.fill(User.all());
   }
 };
 

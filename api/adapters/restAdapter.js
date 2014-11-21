@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------
-  :: sails-rest
-  -> adapter
----------------------------------------------------------------*/
+ :: sails-rest
+ -> adapter
+ ---------------------------------------------------------------*/
 
 var Errors = require('waterline-errors').adapter,
   async = require('async'),
@@ -11,7 +11,7 @@ var Errors = require('waterline-errors').adapter,
   _i = require('underscore.inflections'),
   _s = require('underscore.string');
 
-module.exports = (function() {
+module.exports = (function () {
   "use strict";
 
   // Rest Custom Error Object
@@ -21,6 +21,7 @@ module.exports = (function() {
     this.message = message || "REST Error Message";
     this.meta = meta || {};
   }
+
   RestError.prototype = new Error();
   RestError.prototype.constructor = RestError;
 
@@ -40,7 +41,7 @@ module.exports = (function() {
       result = config.beforeFormatResult(result);
     }
 
-    _.each(definition, function(def, key) {
+    _.each(definition, function (def, key) {
       if (def.type.match(/date/i)) {
         result[key] = new Date(result[key] ? result[key] : null);
       }
@@ -66,7 +67,7 @@ module.exports = (function() {
       results = config.beforeFormatResults(results);
     }
 
-    results.forEach(function(result) {
+    results.forEach(function (result) {
       formatResult(result, collectionName, config, definition);
     });
 
@@ -100,7 +101,7 @@ module.exports = (function() {
    * @param {Object} options - options passed from the calling method
    * @returns {Object}
    */
-  function getPathname(config, method, values, options){
+  function getPathname(config, method, values, options) {
     return config.pathname + '/' + config.resource + (config.action ? '/' + config.action : '');
   }
 
@@ -132,7 +133,7 @@ module.exports = (function() {
 
     // Override config settings from options if available
     if (options && _.isPlainObject(options)) {
-      _.each(config, function(val, key) {
+      _.each(config, function (val, key) {
         if (_.has(options, key)) {
           config[key] = options[key];
         }
@@ -154,10 +155,10 @@ module.exports = (function() {
         delete options.where._id;
       } else if (methodName === 'destroy' || methodName === 'update') {
         // Find all and make new request for each.
-        makeRequest(identity, collectionName, 'find', function(err, results) {
+        makeRequest(identity, collectionName, 'find', function (err, results) {
           if (err) return callback(err);
 
-          _.each(results, function(result, i) {
+          _.each(results, function (result, i) {
             var cb = ((i + 1) === results.length) ? callback : _.noop,
               options = {
                 where: {
@@ -175,8 +176,8 @@ module.exports = (function() {
       // Add where statement as query parameters if requesting via GET
       if (restMethod === 'get') {
         _.extend(config.query, (options.where || {}));
-        ['skip', 'limit', 'offset'].forEach(function(key){
-          if(options[key] !== undefined){
+        ['skip', 'limit', 'offset'].forEach(function (key) {
+          if (options[key] !== undefined) {
             config.query[key] = options[key];
           }
         });
@@ -204,54 +205,63 @@ module.exports = (function() {
     var uri = url.format(config);
 
     var cb = function (err, req, res, data) {
-        var restError,
-        // check if response code is in 4xx or 5xx range
-            responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
+      var restError,
+      // check if response code is in 4xx or 5xx range
+        responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
 
-        if (err && ( res === undefined || res === null || responseErrorCode )) {
-            if (responseErrorCode) {
-                sails.log.error('from service. path:' + req.path + ', code: ' + res.statusCode);
-            }
-            restError = new RestError(res.statusCode, err.message, {req: req, res: res, data: data});
-            callback(restError);
-        } else {
-            r = formatResult(data, collectionName, config, definition);
-
-            if (methodName === 'find') {
-                if (cache) {
-                    cache.engine.set(uri, JSON.stringify(r));
-                }
-            }
-
-            callback(null, r);
+      if (err && ( res === undefined || res === null || responseErrorCode )) {
+        if (responseErrorCode) {
+          sails.log.error('from service. path:' + req.path + ', code: ' + res.statusCode);
         }
+        var code = 500;
+        var message = "Server Error!";
+        if (res && res.statusCode) {
+          code = res.statusCode;
+        }
+        if (err && err.message) {
+          sails.log.error(err.message);
+          message = err.message;
+        }
+        restError = new RestError(code, message, {req: req, res: res, data: data});
+        callback(restError);
+      } else {
+        r = formatResult(data, collectionName, config, definition);
+
+        if (methodName === 'find') {
+          if (cache) {
+            cache.engine.set(uri, JSON.stringify(r));
+          }
+        }
+
+        callback(null, r);
+      }
     };
 
-    var callRequest = function() {
-        if (_.isFunction(connection[restMethod])) {
-            var path = uri.replace(connection.url.href, '/');
+    var callRequest = function () {
+      if (_.isFunction(connection[restMethod])) {
+        var path = uri.replace(connection.url.href, '/');
 
-            // Make request via restify
-            if (opt) {
-                connection[restMethod](path, opt, cb);
-            } else {
-                connection[restMethod](path, cb);
-            }
+        // Make request via restify
+        if (opt) {
+          connection[restMethod](path, opt, cb);
+        } else {
+          connection[restMethod](path, cb);
         }
+      }
     };
 
     // Retrieve data from the cache
     if (methodName === 'find') {
-        if (cache) {
-            cache.engine.get(uri, function (err, val) {
-                if (err || !val) {
-                    callRequest();
-                    return;
-                }
-                callback(null, JSON.parse(val));
-                return;
-            });
-        }
+      if (cache) {
+        cache.engine.get(uri, function (err, val) {
+          if (err || !val) {
+            callRequest();
+            return;
+          }
+          callback(null, JSON.parse(val));
+          return;
+        });
+      }
     }
 
     callRequest();
@@ -285,7 +295,7 @@ module.exports = (function() {
       afterFormatResults: null
     },
 
-    registerConnection: function(connection, collections, cb) {
+    registerConnection: function (connection, collections, cb) {
       if (!connection.identity) return cb(Errors.IdentityMissing);
       if (connections[connection.identity]) return cb(Errors.IdentityDuplicate);
 
@@ -308,11 +318,23 @@ module.exports = (function() {
             host: config.host,
             port: config.port
           }),
+          accept: config.accept,
           headers: config.headers,
           rejectUnauthorized: config.rejectUnauthorized,
-          agent: false
+          requestTimeout: config.requestTimeout
         })
       };
+
+      // override method to rewrite 'accept'
+      var connectionSuper = instance.connection._super;
+      instance.connection.request = function(opts, cb) {
+        opts.headers.accept = config.accept;
+        connectionSuper.request(opts, cb);
+      };
+
+      if (config.maxSockets) {
+        require('http').globalAgent.maxSockets = 150;
+      }
 
       if (config.basicAuth) {
         instance.connection.basicAuth(config.basicAuth.username, config.basicAuth.password);
@@ -327,36 +349,36 @@ module.exports = (function() {
       cb();
     },
 
-    create: function(connection, collectionName, values, cb) {
+    create: function (connection, collectionName, values, cb) {
       makeRequest(connection, collectionName, 'create', cb, null, values);
     },
 
-    findOne: function(connection, collectionName, options, cb) {
-        makeRequest(connection, collectionName, 'find', cb, options);
-    },
-
-    find: function(connection, collectionName, options, cb) {
+    findOne: function (connection, collectionName, options, cb) {
       makeRequest(connection, collectionName, 'find', cb, options);
     },
 
-    update: function(connection, collectionName, options, values, cb) {
+    find: function (connection, collectionName, options, cb) {
+      makeRequest(connection, collectionName, 'find', cb, options);
+    },
+
+    update: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'update', cb, options, values);
     },
 
-    destroy: function(connection, collectionName, options, cb) {
+    destroy: function (connection, collectionName, options, cb) {
       makeRequest(connection, collectionName, 'destroy', cb, options);
     },
 
-    drop: function(connection, collectionName, relations, cb) {
+    drop: function (connection, collectionName, relations, cb) {
       cb();
     },
 
-    define: function(connection, collectionName, definition, cb) {
+    define: function (connection, collectionName, definition, cb) {
       connections[connection].definition = definition;
       cb();
     },
 
-    describe: function(connection, collectionName, cb) {
+    describe: function (connection, collectionName, cb) {
       cb(null, connections[connection].definition);
     }
   };

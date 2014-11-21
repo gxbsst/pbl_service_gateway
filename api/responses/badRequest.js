@@ -15,25 +15,25 @@
 
 module.exports = function badRequest(data) {
 
-    // Get access to `req`, `res`, & `sails`
-    var req = this.req;
-    var res = this.res;
-    var sails = req._sails;
+  // Get access to `req`, `res`, & `sails`
+  var req = this.req;
+  var res = this.res;
+  var sails = req._sails;
 
-    // Set status code
-    res.status(400);
+  // Set status code
+  res.status(400);
 
-    // Log error to console
-    if (data !== undefined) {
-        sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
-    }
-    else sails.log.verbose('Sending 400 ("Bad Request") response');
+  // Log error to console
+  if (data !== undefined) {
+    sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
+  }
+  else sails.log.verbose('Sending 400 ("Bad Request") response');
 
-    var msg = 'Bad Request! ';
-    if (data) {
-        msg += data;
-    }
-    return res.json(400, { code: 400, message: msg });
+  var msg = 'Bad Request!';
+  if (data) {
+    msg += data;
+  }
+  return res.json(400, {code: 400, message: msg});
 
 };
 

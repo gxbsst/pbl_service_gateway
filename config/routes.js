@@ -24,7 +24,5 @@ module.exports.routes = {
 
   '/': 'HomeController.index',
 
-  'GET /courses': 'CoursesController.index',
-
-  'GET /courses/:id': 'CoursesController.show'
+  'GET /users': 'UsersController.index'
 };

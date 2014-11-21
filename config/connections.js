@@ -19,47 +19,58 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.connections.html
  */
 
+var Agent = require('keep-alive-agent');
+
 module.exports.connections = {
 
-    cached_mooc: {
-        adapter: 'rest',
-        type: 'json',                           // expected response type (json | string | http)
-        host: 'testamoocs.ibridgelearn.com',    // api host
-        port: 80,                               // api port
-        protocol: 'http',                       // HTTP protocol (http | https)
-        rejectUnauthorized: true,               // prevent https connections that use a self-signed certificate
-        pathname: '/api/v1',                    // base api path
-        resource: null,                         // resource path to use (overrides model name)
-        action: null,                           // action to use for the given resource ([resource]/run)
-        query: {},                              // query parameters to provide with all GET requests
-        methods: {                              // overrides default HTTP methods used for each CRUD action
-            create: 'post',
-            find: 'get',
-            update: 'put',
-            destroy: 'del'
-        },
-        cache: {
-            engine: require('./cache')
-        }
+  /*example: {
+    adapter: 'rest',
+    type: 'json',                           // expected response type (json | string | http)
+    hostname: 'localhost',                  // api hostname
+    port: 80,                               // api port
+    protocol: 'http',                       // HTTP protocol (http | https)
+    accept: 'application/json',             // HTTP headers.accept
+    rejectUnauthorized: true,               // prevent https connections that use a self-signed certificate
+    maxSockets: 150,                        // http.globalAgent.maxSockets (NodeJS)
+    requestTimeout: 95000,                  // request timeout (ms)
+    pathname: '/api/v1',                    // base api path
+    headers: {                              // http headers
+      'x-foo': 'bar'
     },
-
-    mooc: {
-        adapter: 'rest',
-        type: 'json',                           // expected response type (json | string | http)
-        host: 'testamoocs.ibridgelearn.com',    // api host
-        port: 80,                               // api port
-        protocol: 'http',                       // HTTP protocol (http | https)
-        rejectUnauthorized: true,               // prevent https connections that use a self-signed certificate
-        pathname: '/api/v1',                    // base api path
-        resource: null,                         // resource path to use (overrides model name)
-        action: null,                           // action to use for the given resource ([resource]/run)
-        query: {},                              // query parameters to provide with all GET requests
-        methods: {                              // overrides default HTTP methods used for each CRUD action
-            create: 'post',
-            find: 'get',
-            update: 'put',
-            destroy: 'del'
-        }
+    resource: null,                         // resource path to use (overrides model name)
+    action: null,                           // action to use for the given resource ([resource]/run)
+    query: {},                              // query parameters to provide with all GET requests
+    methods: {                              // overrides default HTTP methods used for each CRUD action
+      create: 'post',
+      find: 'get',
+      update: 'put',
+      destroy: 'del'
+    },
+    cache: {
+      engine: require('./cache')
     }
+  },*/
+
+  baseServiceV1: {
+    adapter: 'rest',
+    type: 'json',
+    hostname: 'localhost',
+    port: 3000,
+    protocol: 'http',
+    accept: 'application/vnd.ibridgebrige.com; version=1',
+    rejectUnauthorized: true,
+    maxSockets: 150,
+    requestTimeout: 95000,
+    pathname: '',
+    resource: null,
+    action: null,
+    query: {},
+    methods: {
+      create: 'post',
+      find: 'get',
+      update: 'put',
+      destroy: 'del'
+    }
+  }
 
 };

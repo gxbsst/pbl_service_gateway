@@ -19,24 +19,24 @@
 
 module.exports = function notFound(data) {
 
-    // Get access to `req`, `res`, & `sails`
-    var req = this.req;
-    var res = this.res;
-    var sails = req._sails;
+  // Get access to `req`, `res`, & `sails`
+  var req = this.req;
+  var res = this.res;
+  var sails = req._sails;
 
-    // Set status code
-    res.status(404);
+  // Set status code
+  res.status(404);
 
-    // Log error to console
-    if (data !== undefined) {
-        sails.log.verbose('Sending 404 ("Not Found") response: \n', data);
-    }
-    else sails.log.verbose('Sending 404 ("Not Found") response');
+  // Log error to console
+  if (data !== undefined) {
+    sails.log.verbose('Sending 404 ("Not Found") response: \n', data);
+  }
+  else sails.log.verbose('Sending 404 ("Not Found") response');
 
-    var msg = 'Not Found! ';
-    if (data) {
-        msg += data;
-    }
-    return res.json(404, { code: 404, message: msg });
+  var msg = 'Not Found!';
+  if (data) {
+    msg += data;
+  }
+  return res.json(404, {code: 404, message: msg});
 };
 
