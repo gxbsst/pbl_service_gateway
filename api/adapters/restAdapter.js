@@ -309,7 +309,8 @@ module.exports = (function() {
             port: config.port
           }),
           headers: config.headers,
-          rejectUnauthorized: config.rejectUnauthorized
+          rejectUnauthorized: config.rejectUnauthorized,
+          agent: false
         })
       };
 
