@@ -309,6 +309,10 @@ module.exports = (function () {
         throw new Error('Invalid type provided: ' + config.type);
       }
 
+      if (config.maxSockets) {
+        require('http').globalAgent.maxSockets = 150;
+      }
+
       instance = {
         config: config,
         connection: restify[clientMethod]({
@@ -331,10 +335,6 @@ module.exports = (function () {
         opts.headers.accept = config.accept;
         connectionSuper.request(opts, cb);
       };
-
-      if (config.maxSockets) {
-        require('http').globalAgent.maxSockets = 150;
-      }
 
       if (config.basicAuth) {
         instance.connection.basicAuth(config.basicAuth.username, config.basicAuth.password);
