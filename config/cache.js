@@ -1,3 +1,6 @@
+/*
+Redis cache
+
 var _ = require('lodash');
 var redis = require('redis');
 
@@ -27,4 +30,4 @@ module.exports = {
             if (_.isFunction(callback)) callback(err);
         });
     }
-};
+};*/
