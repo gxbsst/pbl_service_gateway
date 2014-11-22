@@ -19,8 +19,6 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.connections.html
  */
 
-var Agent = require('keep-alive-agent');
-
 module.exports.connections = {
 
   /*example: {
