@@ -49,6 +49,7 @@ namespace :deploy do
   task :test do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
+        execute "npm", "install", "-g", "mocha"
         execute "mocha"
       end
     end
