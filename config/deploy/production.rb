@@ -13,7 +13,7 @@ role :app, %w{root@ibridgelearn.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-# server 'root@124.202.141.248', user: 'root', roles: %w{app}
+# server 'root@ibridgelearn.com', user: 'root', roles: %w{app}
 
 
 # Custom SSH Options
@@ -39,7 +39,7 @@ server 'ibridgelearn.com',
          keys: %w(/home/alan/.ssh/id_rsa),
          forward_agent: false,
          auth_methods: %w(publickey password),
-         password: 'Zgc3x@123'
+         # password: 'your password'
        }
 
 

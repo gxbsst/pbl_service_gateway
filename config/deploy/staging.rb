@@ -39,7 +39,7 @@ server '124.202.141.248',
          keys: %w(/home/alan/.ssh/id_rsa),
          forward_agent: false,
          auth_methods: %w(publickey password),
-         password: 'Zgc3x@123'
+         # password: 'your password'
        }
 
 

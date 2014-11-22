@@ -1,8 +1,8 @@
 {
   "name": "pbl_service_gateway",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
+  "version": "0.0.1",
+  "description": "pbl service gateway",
   "keywords": [],
   "dependencies": {
     "sails": "~0.10.5",
@@ -17,10 +17,6 @@
     "include-all": "~0.1.3",
     "ejs": "~0.8.4",
     "winston": "~0.8.3",
-    /*
-    "redis": "~0.12.1",
-    "hiredis": "~0.1.17",
-    */
     "grunt": "0.4.2",
     "grunt-sync": "~0.0.4",
     "grunt-contrib-copy": "~0.5.0",
