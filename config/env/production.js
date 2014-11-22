@@ -35,4 +35,9 @@ module.exports = {
   //   level: "silent"
   // }
 
+
+  version: {
+    enable: true
+  }
+
 };
