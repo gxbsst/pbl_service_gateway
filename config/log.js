@@ -1,17 +1,6 @@
-/**
- * Built-in Log Configuration
- * (sails.config.log)
- *
- * Configure the log level for your app, as well as the transport
- * (Underneath the covers, Sails uses Winston for logging, which
- * allows for some pretty neat custom transports/adapters for log messages)
- *
- * For more information on the Sails logger, check out:
- * http://sailsjs.org/#/documentation/concepts/Logging
- */
 
 /*see the documentation for Winston:  https://github.com/flatiron/winston */
-var winston = require('winston');
+/*var winston = require('winston');
 
 var logger = new (winston.Logger)({
     transports: [
@@ -23,7 +12,7 @@ var logger = new (winston.Logger)({
             colorize : false
         })
     ]
-});
+});*/
 
 module.exports.log = {
 
@@ -41,8 +30,8 @@ module.exports.log = {
 
   level: 'info',
 
-  colorize: false,
+  colorize: false
 
-  custom: logger
+  // custom: logger
 
 };
