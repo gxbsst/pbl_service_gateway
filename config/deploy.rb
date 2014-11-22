@@ -40,7 +40,7 @@ namespace :deploy do
   task :npm_install do
     on roles(:app) do
       within release_path do
-        execute "npm", "install", "-g", "pm2"
+        execute "npm", "install", "-g", "forever"
         execute "npm", "install"
       end
     end

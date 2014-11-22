@@ -49,12 +49,7 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
-        execute "pm2", "kill"
-        execute "pm2", "start", "app.js",
-                "-o", "logs/out.log",
-                "-e", "logs/err.log",
-                "-i", "max",
-                "\"pbl_service_gateway\""
+        execute "forever", "restart", "app.js", "--prod"
       end
     end
   end
