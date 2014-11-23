@@ -29,11 +29,6 @@ module.exports = function badRequest(data) {
   }
   else sails.log.verbose('Sending 400 ("Bad Request") response');
 
-  var msg = 'Bad Request!';
-  if (data) {
-    msg += data;
-  }
-  return res.json(400, {code: 400, message: msg});
-
+  return res.err(400);
 };
 

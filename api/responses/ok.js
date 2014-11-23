@@ -20,10 +20,6 @@ module.exports = function sendOK(data) {
   // Set status code
   res.status(200);
 
-  var msg = 'OK!';
-  if (data) {
-    msg += data;
-  }
-  return res.json(200, {code: 200, message: msg});
+  return res.json(200, { code: 200, message: data || 'Everything worked as expected.' });
 
 };

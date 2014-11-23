@@ -33,10 +33,6 @@ module.exports = function notFound(data) {
   }
   else sails.log.verbose('Sending 404 ("Not Found") response');
 
-  var msg = 'Not Found!';
-  if (data) {
-    msg += data;
-  }
-  return res.json(404, {code: 404, message: msg});
+  return res.err(404, data);
 };
 

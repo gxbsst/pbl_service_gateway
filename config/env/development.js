@@ -22,6 +22,6 @@ module.exports = {
   },
 
   version: {
-    enable: true
+    enable: false
   }
 };

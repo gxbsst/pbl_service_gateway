@@ -9,6 +9,10 @@ module.exports = {
 
   index: function (req, res) {
     return res.fill(User.all());
+  },
+
+  auth: function (req, res) {
+    return res.json({})
   }
 };
 

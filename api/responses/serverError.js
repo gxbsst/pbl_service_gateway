@@ -27,10 +27,6 @@ module.exports = function serverError(data) {
   }
   else sails.log.error('Sending empty 500 ("Server Error") response');
 
-  var msg = 'Server Error!';
-  if (data) {
-    msg += data;
-  }
-  return res.json(500, {code: 500, message: msg});
+  return res.json(500, data);
 };
 

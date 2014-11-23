@@ -27,10 +27,6 @@ module.exports = function forbidden(data) {
   }
   else sails.log.verbose('Sending 403 ("Forbidden") response');
 
-  var msg = 'Forbidden!';
-  if (data) {
-    msg += data;
-  }
-  return res.json(403, {code: 403, message: msg});
+  return res.err(403, data);
 };
 

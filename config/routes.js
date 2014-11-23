@@ -24,5 +24,7 @@ module.exports.routes = {
 
   '/': 'HomeController.index',
 
-  'GET /users': 'UsersController.index'
+  'GET /users': 'UsersController.index',
+
+  'POST /users/actions/auth': 'UsersController.auth'
 };

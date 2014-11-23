@@ -64,7 +64,7 @@ namespace :deploy do
         execute "pm2", "start", "app.js",
                 "-o", "logs/out.log",
                 "-e", "logs/err.log",
-                "-i", "max",
+                "-x", "--",
                 "\"pbl_service_gateway\""
       end
     end
