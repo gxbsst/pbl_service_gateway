@@ -26,5 +26,7 @@ module.exports.routes = {
 
   'GET /users': 'UsersController.index',
 
-  'POST /sessions': 'SessionsController.create'
+  'POST /sessions': 'SessionsController.create',
+
+  'GET /accounts/1/actions/transfer': 'AccountsController.transfer'
 };
