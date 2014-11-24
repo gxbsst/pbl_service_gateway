@@ -1,5 +1,5 @@
 /**
- * UsersController
+ * SessionsController
  *
  * @description :: Server-side logic for managing Users
  * @help        :: See http://links.sailsjs.org/docs/controllers
@@ -7,8 +7,8 @@
 
 module.exports = {
 
-  index: function (req, res) {
-    return res.fill(User.all());
+  create: function (req, res) {
+    return res.fill(Session._create(req.body.email, req.body.password));
   }
 
 };

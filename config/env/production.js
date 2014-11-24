@@ -33,11 +33,6 @@ module.exports = {
 
   // log: {
   //   level: "silent"
-  // }
-
-
-  version: {
-    enable: true
-  }
+  // }s
 
 };

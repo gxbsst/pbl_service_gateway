@@ -2,7 +2,7 @@
 // The object below will be merged into `sails.config.version`:
 module.exports.version = {
 
-  enable: false,
+  enable: true,
 
   accept: 'application/vnd.ibridgebrige.com; version=1'
 

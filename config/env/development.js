@@ -19,9 +19,5 @@ module.exports = {
 
   models: {
      connection: 'baseServiceV1'
-  },
-
-  version: {
-    enable: false
   }
 };

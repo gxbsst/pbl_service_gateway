@@ -5,12 +5,6 @@ module.exports = function err(code, message) {
 
   var getHttpStatus = function (code) {
     switch (code) {
-      case 200:
-        return {
-          code: 200,
-          type: 'ok',
-          message: 'Everything worked as expected.'
-        }
       case 400:
         return {
           code: 400,
