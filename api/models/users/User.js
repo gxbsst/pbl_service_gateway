@@ -5,12 +5,6 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
-var Assist = require("../../helpers/Assist");
-
 module.exports = {
-
-  all: function () {
-    return Assist.makePromiseByExec(User.find());
-  }
 };
 

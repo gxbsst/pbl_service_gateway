@@ -5,8 +5,6 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
-var Assist = require("../../helpers/Assist");
-
 module.exports = {
 
   attributes: {
@@ -16,10 +14,6 @@ module.exports = {
     password: {
       type: 'string'
     }
-  },
-
-  _create: function (email, password) {
-    return Assist.makePromiseByExec(Session.create({ email: email, password: password }));
   }
 
 };

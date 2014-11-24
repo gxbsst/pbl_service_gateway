@@ -8,7 +8,7 @@
 module.exports = {
 
   create: function (req, res) {
-    return res.fill(Session._create(req.body.email, req.body.password));
+    return res.fill(Session.create({email: req.body.email, password: req.body.password}));
   }
 
 };

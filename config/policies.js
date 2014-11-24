@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': 'canAccess'
+  '*': 'canAccess',
 
   /***************************************************************************
   *                                                                          *
@@ -48,4 +48,8 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
+
+  HomeController: {
+    '*': true
+  }
 };
