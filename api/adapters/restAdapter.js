@@ -9,21 +9,11 @@ var Errors = require('waterline-errors').adapter,
   url = require('url'),
   _ = require('lodash'),
   _i = require('underscore.inflections'),
-  _s = require('underscore.string');
+  _s = require('underscore.string'),
+  RestError = require('../errors/RestError');
 
 module.exports = (function () {
   "use strict";
-
-  // Rest Custom Error Object
-  function RestError(code, message, meta) {
-    this.code = code || 500;
-    this.name = "RestError";
-    this.message = message || "REST Error Message";
-    this.meta = meta || {};
-  }
-
-  RestError.prototype = new Error();
-  RestError.prototype.constructor = RestError;
 
   var connections = {};
 
@@ -103,6 +93,38 @@ module.exports = (function () {
    */
   function getPathname(config, method, values, options) {
     return config.pathname + '/' + config.resource + (config.action ? '/' + config.action : '');
+  }
+
+  /**
+   * 错误处理
+   * @param err
+   * @param req
+   * @param res
+   * @param data
+   * @returns {*}
+   */
+  function handleError(err, req, res, data) {
+    var restError,
+    // check if response code is in 4xx or 5xx range
+      responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
+
+    if (err && ( res === undefined || res === null || responseErrorCode )) {
+      var code, message;
+
+      if (res && res.statusCode) {
+        code = res.statusCode;
+      }
+
+      if (err && err.message) {
+        message = err.message;
+      }
+
+      restError = new RestError(code, message, {req: req, res: res, data: data});
+
+      sails.log.error('from rest service. path:' + req.path + ', code: ' + restError.code + ', message: ' + restError.message);
+    }
+
+    return restError;
   }
 
   /**
@@ -205,24 +227,8 @@ module.exports = (function () {
     var uri = url.format(config);
 
     var cb = function (err, req, res, data) {
-      var restError,
-      // check if response code is in 4xx or 5xx range
-        responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
-
-      if (err && ( res === undefined || res === null || responseErrorCode )) {
-        if (responseErrorCode) {
-          sails.log.error('from service. path:' + req.path + ', code: ' + res.statusCode);
-        }
-        var code = 500;
-        var message = "Server Error!";
-        if (res && res.statusCode) {
-          code = res.statusCode;
-        }
-        if (err && err.message) {
-          sails.log.error(err.message);
-          message = err.message;
-        }
-        restError = new RestError(code, message, {req: req, res: res, data: data});
+      var restError = handleError(err, req, res, data);
+      if (restError) {
         callback(restError);
       } else {
         r = formatResult(data, collectionName, config, definition);
@@ -386,11 +392,11 @@ module.exports = (function () {
       var client = connections[identity].connection;
       if (options.data) {
         client[options.method](options.path, options.data, function(err, req, res, obj) {
-          options.callback(err, obj);
+          options.callback(handleError(err, req, res, obj), obj);
         });
       } else {
         client[options.method](options.path, function(err, req, res, obj) {
-          options.callback(err, obj);
+          options.callback(handleError(err, req, res, obj), obj);
         });
       }
     }

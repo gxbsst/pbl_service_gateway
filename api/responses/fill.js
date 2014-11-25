@@ -2,10 +2,12 @@
  * 200 (OK) Response
  *
  * Usage:
- * return res.fill(query);
+ * return res.fill(promise);
  *
  * @param  {Object} promise - promise
  */
+
+var RestError = require('../errors/RestError');
 
 module.exports = function fill(promise) {
 
@@ -13,12 +15,13 @@ module.exports = function fill(promise) {
 
   promise.then(function (data) {
     return res.json(data);
-  }).error(function (err) {
-    var code = 500;
-    if (err && err.originalError && err.originalError.code) {
-      code = err.originalError.code;
+  }).catch(RestError, function (err) {
+    return res.err(err.code, err.message);
+  }).catch(function (err) {
+    if (err.originalError && err.originalError instanceof RestError) {
+      return res.err(err.originalError.code, err.originalError.message);
     }
-    return res.err(code, err.details);
+    return res.err(500, err.toString());
   });
 
 }
