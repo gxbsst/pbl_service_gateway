@@ -6,5 +6,18 @@
  */
 
 module.exports = {
+
+  attributes: {
+    email: {
+      type: 'string'
+    },
+    password: {
+      type: 'string'
+    }
+  },
+
+  autoCreatedAt: false,
+  autoUpdatedAt: false
+
 };
 

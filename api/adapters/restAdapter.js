@@ -380,6 +380,19 @@ module.exports = (function () {
 
     describe: function (connection, collectionName, cb) {
       cb(null, connections[connection].definition);
+    },
+
+    request: function(identity, collectionName, options) {
+      var client = connections[identity].connection;
+      if (options.data) {
+        client[options.method](options.path, options.data, function(err, req, res, obj) {
+          options.callback(err, obj);
+        });
+      } else {
+        client[options.method](options.path, function(err, req, res, obj) {
+          options.callback(err, obj);
+        });
+      }
     }
   };
 

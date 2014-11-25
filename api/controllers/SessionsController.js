@@ -5,10 +5,12 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var authorization = require('../contexts/Authorization');
+
 module.exports = {
 
   create: function (req, res) {
-    return res.fill(Session.create({email: req.body.email, password: req.body.password}));
+    return res.fill(authorization(req.body.email, req.body.password).auth());
   }
 
 };

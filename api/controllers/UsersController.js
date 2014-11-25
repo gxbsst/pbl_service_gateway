@@ -8,7 +8,7 @@
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(User.all());
+    return res.fill(User.find());
   }
 
 };

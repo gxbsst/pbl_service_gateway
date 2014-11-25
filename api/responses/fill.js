@@ -4,21 +4,21 @@
  * Usage:
  * return res.fill(query);
  *
- * @param  {Object} query - query
+ * @param  {Object} promise - promise
  */
 
-module.exports = function fill(query) {
+module.exports = function fill(promise) {
 
   var res = this.res;
 
-  query.exec(function (err, data) {
-    if (err) {
-      var code = 500;
-      if (err && err.originalError && err.originalError.code) {
-        code = err.originalError.code;
-      }
-      return res.err(code, err.details);
-    }
+  promise.then(function (data) {
     return res.json(data);
+  }).error(function (err) {
+    var code = 500;
+    if (err && err.originalError && err.originalError.code) {
+      code = err.originalError.code;
+    }
+    return res.err(code, err.details);
   });
+
 }
