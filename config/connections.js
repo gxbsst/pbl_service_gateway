@@ -19,6 +19,8 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.connections.html
  */
 
+var bunyan = require('bunyan');
+
 module.exports.connections = {
 
   /*example: {
@@ -71,7 +73,11 @@ module.exports.connections = {
       find: 'get',
       update: 'put',
       destroy: 'del'
-    }
+    },
+    log: bunyan.createLogger({
+      name: "pbl_service_gateway",
+      stream: process.stdout,
+      level: 'info'
+    })
   }
-
 };

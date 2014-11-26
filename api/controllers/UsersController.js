@@ -17,6 +17,10 @@ module.exports = {
     return res.fill(User.create(req.body.user));
   },
 
+  show: function (req, res) {
+    return res.fill(User.find({_id: req.param('id')}));
+  },
+
   authenticate: function (req, res) {
     return res.fill(authentication().ask(req.param('id'), req.body.password));
   }
