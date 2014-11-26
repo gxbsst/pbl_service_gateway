@@ -26,5 +26,5 @@ module.exports.routes = {
 
   'GET /users': 'UsersController.index',
 
-  'POST /sessions': 'SessionsController.create'
+  'POST /users/actions/authenticate': 'UsersController.authenticate'
 };
