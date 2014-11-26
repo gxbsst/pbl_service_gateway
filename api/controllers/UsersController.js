@@ -18,7 +18,7 @@ module.exports = {
   },
 
   authenticate: function (req, res) {
-    return res.fill(authentication().ask(req.query.id, req.body.password));
+    return res.fill(authentication().ask(req.param('id'), req.body.password));
   }
 
 };
