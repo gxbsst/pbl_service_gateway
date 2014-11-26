@@ -18,7 +18,7 @@ module.exports = {
   },
 
   show: function (req, res) {
-    return res.fill(User.find({_id: req.param('id')}));
+    return res.fill(User.findOne({_id: req.param('id')}));
   },
 
   authenticate: function (req, res) {
