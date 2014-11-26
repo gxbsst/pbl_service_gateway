@@ -1,52 +1,111 @@
-var request = require('supertest');
+var Promise = require("bluebird"),
+  request = require('supertest');
 
 describe('UsersController', function () {
 
-  var user = {
-    username: 'john_doe',
-    email: 'john_doe@test.com',
-    password: 'secret',
-    first_name: 'John',
-    last_name: 'Doe'
-  }
-
   describe('#index()', function () {
+
+    before(function (done) {
+      User.find = function () {
+        var def = Promise.defer();
+        def.callback(null, [{id: 1, username: 'admin', email: 'admin@example.com'}]);
+        return def.promise;
+      };
+      done();
+    });
+
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
         .get('/users')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(200)
+        .expect([{id: 1, username: 'admin', email: 'admin@example.com'}], done);
+    });
+  });
+
+  describe('#show()', function () {
+
+    before(function (done) {
+      User.findOne = function () {
+        var def = Promise.defer();
+        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        return def.promise;
+      };
+      done();
+    });
+
+    it('should respond with json', function (done) {
+      request(sails.hooks.http.app)
+        .get('/users/admin')
+        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
   });
 
   describe('#create()', function () {
+
+    before(function (done) {
+      User.create = function (object) {
+        var def = Promise.defer();
+        object.id = 1;
+        def.callback(null, object);
+        return def.promise;
+      };
+      done();
+    });
+
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
         .post('/users')
-        .send(user)
+        .send({user: {username: 'admin', email: 'admin@example.com'}})
+        .set('Content-Type', 'application/json')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(200)
+        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
   });
 
   describe('#authenticate()', function () {
+
+    before(function (done) {
+
+      User.findOne = function (object) {
+        var def = Promise.defer();
+        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        return def.promise;
+      }
+
+      RestClient.request = function (method, path, option, callback) {
+        var def = Promise.defer();
+        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        return def.promise;
+      }
+
+      done();
+    });
+
     it('by username & password, should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .post('/users/' + user.username + '/actions/authenticate')
-        .send({password: user.password})
+        .post('/users/admin/actions/authenticate')
+        .send({password: 'admin'})
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(200)
+        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
+
     it('by email & password, should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .post('/users/' + user.email + '/actions/authenticate')
-        .send({password: user.password})
+        .post('/users/admin@example.com/actions/authenticate')
+        .send({password: 'admin'})
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect(200, done);
+        .expect(200)
+        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
   });
 

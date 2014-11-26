@@ -23,7 +23,17 @@ RestError.handleError = function (err, req, res, data) {
       message = err.message;
     }
     restError = new RestError(code, message, {req: req, res: res, data: data});
-    sails.log.error('from rest service. path:' + req.path + ', code: ' + restError.code + ', message: ' + restError.message);
+
+    sails.log.error('method: ' + req.method
+    + ', host: ' + req._headers.host
+    + ', path: ' + req.path
+    + ', statusCode: ' + restError.code
+    + ', errorMessage: ' + restError.message);
+  } else {
+    sails.log.info('method: ' + req.method
+    + ', host: ' + req._headers.host
+    + ', path: ' + req.path
+    + ', statusCode: ' + res.statusCode);
   }
 
   return restError;
