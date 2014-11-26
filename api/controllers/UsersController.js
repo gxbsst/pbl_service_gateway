@@ -14,7 +14,7 @@ module.exports = {
   },
 
   create: function (req, res) {
-    return res.fill(User.create(req.body));
+    return res.fill(User.create(req.body.user));
   },
 
   authenticate: function (req, res) {

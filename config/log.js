@@ -28,7 +28,7 @@ module.exports.log = {
   *                                                                          *
   ***************************************************************************/
 
-  level: 'info',
+  level: 'silly',
 
   colorize: false
 
