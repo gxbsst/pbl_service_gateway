@@ -13,6 +13,10 @@ module.exports = {
     return res.fill(User.find());
   },
 
+  create: function (req, res) {
+    return res.fill(User.create(req.body));
+  },
+
   authenticate: function (req, res) {
     return res.fill(authentication().ask(req.query.id, req.body.password));
   }

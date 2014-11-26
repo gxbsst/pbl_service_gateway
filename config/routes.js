@@ -25,6 +25,7 @@ module.exports.routes = {
   '/': 'HomeController.index',
 
   'GET /users': 'UsersController.index',
+  'POST /users': 'UsersController.create',
 
   'POST /users/:id/actions/authenticate': 'UsersController.authenticate'
 };

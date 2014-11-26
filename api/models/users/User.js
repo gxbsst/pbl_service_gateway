@@ -8,10 +8,19 @@
 module.exports = {
 
   attributes: {
+    username: {
+      type: 'string'
+    },
     email: {
       type: 'string'
     },
     password: {
+      type: 'string'
+    },
+    first_name: {
+      type: 'string'
+    },
+    last_name: {
       type: 'string'
     }
   },

@@ -53,13 +53,16 @@ module.exports.connections = {
     adapter: 'rest',
     type: 'json',
     hostname: 'localhost',
-    port: 9292,
+    port: 3000,
     protocol: 'http',
     accept: 'application/vnd.ibridgebrige.com; version=1',
     rejectUnauthorized: true,
     maxSockets: 150,
     requestTimeout: 95000,
     pathname: '',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     resource: null,
     action: null,
     query: {},

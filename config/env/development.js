@@ -19,5 +19,7 @@ module.exports = {
 
   models: {
      connection: 'baseServiceV1'
-  }
+  },
+
+  port: 3001
 };

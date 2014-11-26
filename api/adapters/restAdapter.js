@@ -96,6 +96,19 @@ module.exports = (function () {
   }
 
   /**
+   * 根据collectionName和values来构建请求数据体
+   *
+   * @param collectionName
+   * @param values
+   * @returns {{}}
+   */
+  function getRequestBody(collectionName, values) {
+    var body = {};
+    body[collectionName] = values;
+    return body;
+  }
+
+  /**
    * Makes a REST request via restify
    * @param {String} identity - type of connection interface
    * @param {String} collectionName - collection the result object belongs to
@@ -326,7 +339,7 @@ module.exports = (function () {
     connections: connections,
 
     create: function (connection, collectionName, values, cb) {
-      makeRequest(connection, collectionName, 'create', cb, null, values);
+      makeRequest(connection, collectionName, 'create', cb, null, getRequestBody(collectionName, values));
     },
 
     findOne: function (connection, collectionName, options, cb) {
@@ -338,7 +351,7 @@ module.exports = (function () {
     },
 
     update: function (connection, collectionName, options, values, cb) {
-      makeRequest(connection, collectionName, 'update', cb, options, values);
+      makeRequest(connection, collectionName, 'update', cb, options, getRequestBody(collectionName, values));
     },
 
     destroy: function (connection, collectionName, options, cb) {

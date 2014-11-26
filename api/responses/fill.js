@@ -21,7 +21,7 @@ module.exports = function fill(promise) {
     if (err.originalError && err.originalError instanceof RestError) {
       return res.err(err.originalError.code, err.originalError.message);
     }
-    return res.err(err.statusCode || 500, err.toString());
+    return res.err(err.statusCode || 500, err.message || err.toString());
   });
 
 }
