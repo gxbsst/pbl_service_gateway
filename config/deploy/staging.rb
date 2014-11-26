@@ -4,7 +4,7 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{root@124.202.141.248}
+role :app, %w{root@172.172.172.120}
 
 
 # Extended Server Syntax
@@ -31,15 +31,15 @@ role :app, %w{root@124.202.141.248}
 #
 # And/or per server (overrides global)
 # ------------------------------------
-server '124.202.141.248',
+server '172.172.172.120',
        user: 'root',
        roles: %w{app},
        ssh_options: {
          user: 'root', # overrides user setting above
-         keys: %w(/home/alan/.ssh/id_rsa),
+         # keys: %w(/Users/weston/.ssh/id_rsa),
          forward_agent: false,
-         auth_methods: %w(publickey password),
-         # password: 'your password'
+         auth_methods: %w(password),
+         password: '123@edutec'
        }
 
 
