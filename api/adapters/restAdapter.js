@@ -96,38 +96,6 @@ module.exports = (function () {
   }
 
   /**
-   * 错误处理
-   * @param err
-   * @param req
-   * @param res
-   * @param data
-   * @returns {*}
-   */
-  function handleError(err, req, res, data) {
-    var restError,
-    // check if response code is in 4xx or 5xx range
-      responseErrorCode = res && /^(4|5)\d+$/.test(res.statusCode.toString());
-
-    if (err && ( res === undefined || res === null || responseErrorCode )) {
-      var code, message;
-
-      if (res && res.statusCode) {
-        code = res.statusCode;
-      }
-
-      if (err && err.message) {
-        message = err.message;
-      }
-
-      restError = new RestError(code, message, {req: req, res: res, data: data});
-
-      sails.log.error('from rest service. path:' + req.path + ', code: ' + restError.code + ', message: ' + restError.message);
-    }
-
-    return restError;
-  }
-
-  /**
    * Makes a REST request via restify
    * @param {String} identity - type of connection interface
    * @param {String} collectionName - collection the result object belongs to
@@ -227,7 +195,7 @@ module.exports = (function () {
     var uri = url.format(config);
 
     var cb = function (err, req, res, data) {
-      var restError = handleError(err, req, res, data);
+      var restError = RestError.handleError(err, req, res, data);
       if (restError) {
         callback(restError);
       } else {
@@ -355,6 +323,8 @@ module.exports = (function () {
       cb();
     },
 
+    connections: connections,
+
     create: function (connection, collectionName, values, cb) {
       makeRequest(connection, collectionName, 'create', cb, null, values);
     },
@@ -386,20 +356,8 @@ module.exports = (function () {
 
     describe: function (connection, collectionName, cb) {
       cb(null, connections[connection].definition);
-    },
-
-    request: function(identity, collectionName, options) {
-      var client = connections[identity].connection;
-      if (options.data) {
-        client[options.method](options.path, options.data, function(err, req, res, obj) {
-          options.callback(handleError(err, req, res, obj), obj);
-        });
-      } else {
-        client[options.method](options.path, function(err, req, res, obj) {
-          options.callback(handleError(err, req, res, obj), obj);
-        });
-      }
     }
+
   };
 
   return adapter;

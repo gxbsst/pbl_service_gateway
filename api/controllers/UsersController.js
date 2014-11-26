@@ -13,8 +13,8 @@ module.exports = {
     return res.fill(User.find());
   },
 
-  authenticate: function(req, res) {
-    return res.fill(authentication().ask(req.body.id, req.body.password));
+  authenticate: function (req, res) {
+    return res.fill(authentication().ask(req.query.id, req.body.password));
   }
 
 };
