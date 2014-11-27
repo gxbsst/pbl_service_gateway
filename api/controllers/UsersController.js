@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var authentication = require('../contexts/authentication');
+var Authentication = require('../contexts/Authentication');
 
 module.exports = {
 
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   authenticate: function (req, res) {
-    return res.fill(authentication().ask(req.param('id'), req.body.password));
+    return res.fill(Authentication.ask(req.param('id'), req.body.password));
   }
 
 };

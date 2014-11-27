@@ -1,6 +1,7 @@
 var Promise = require('bluebird'),
   request = require('supertest'),
-  muk = require('muk');
+  muk = require('muk'),
+  RestError = require('../../../api/errors/RestError');
 
 describe('UsersController', function () {
 
@@ -94,51 +95,79 @@ describe('UsersController', function () {
 
   describe('#authenticate()', function () {
 
-    before(function (done) {
-
-      muk(User, 'findOne', function () {
-        var def = Promise.defer();
-        process.nextTick(function () {
-          def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+    describe('(error finding)', function () {
+      before(function (done) {
+        muk(User, 'findOne', function () {
+          var def = Promise.defer();
+          process.nextTick(function () {
+            def.callback(new RestError(404, 'not found'), {});
+          });
+          return def.promise;
         });
-        return def.promise;
+        done();
       });
 
-      muk(RestClient, 'request', function (method, path, option, callback) {
-        var def = Promise.defer();
-        process.nextTick(function () {
-          def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
-        });
-        return def.promise;
+      it('should respond with 404', function (done) {
+        request(sails.hooks.http.app)
+          .post('/users/admin/actions/authenticate')
+          .send({password: 'admin'})
+          .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+          .expect('Content-Type', /json/)
+          .expect(404, done);
       });
 
-      done();
+      after(function (done) {
+        muk.restore();
+        done();
+      });
     });
 
-    it('by username & password, should respond with json', function (done) {
-      request(sails.hooks.http.app)
-        .post('/users/admin/actions/authenticate')
-        .send({password: 'admin'})
-        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
-    });
+    describe('(request success)', function () {
+      before(function (done) {
+        muk(User, 'findOne', function () {
+          var def = Promise.defer();
+          process.nextTick(function () {
+            def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+          });
+          return def.promise;
+        });
 
-    it('by email & password, should respond with json', function (done) {
-      request(sails.hooks.http.app)
-        .post('/users/admin@example.com/actions/authenticate')
-        .send({password: 'admin'})
-        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
-    });
+        muk(RestClient, 'request', function (method, path, option, callback) {
+          var def = Promise.defer();
+          process.nextTick(function () {
+            def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+          });
+          return def.promise;
+        });
 
-    after(function (done) {
-      muk.restore();
-      done();
-    });
+        done();
+      });
+
+      it('by username & password, should respond with json', function (done) {
+        request(sails.hooks.http.app)
+          .post('/users/admin/actions/authenticate')
+          .send({password: 'admin'})
+          .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
+      });
+
+      it('by email & password, should respond with json', function (done) {
+        request(sails.hooks.http.app)
+          .post('/users/admin@example.com/actions/authenticate')
+          .send({password: 'admin'})
+          .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
+      });
+
+      after(function (done) {
+        muk.restore();
+        done();
+      });
+    })
   });
 
 });
