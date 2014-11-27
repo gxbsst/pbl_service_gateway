@@ -1,16 +1,17 @@
-var Promise = require("bluebird"),
-  request = require('supertest');
+var Promise = require('bluebird'),
+  request = require('supertest'),
+  muk = require('muk');
 
 describe('UsersController', function () {
 
   describe('#index()', function () {
 
     before(function (done) {
-      User.find = function () {
+      muk(User, 'find', function () {
         var def = Promise.defer();
         def.callback(null, [{id: 1, username: 'admin', email: 'admin@example.com'}]);
         return def.promise;
-      };
+      })
       done();
     });
 
@@ -22,16 +23,22 @@ describe('UsersController', function () {
         .expect(200)
         .expect([{id: 1, username: 'admin', email: 'admin@example.com'}], done);
     });
+
+    after(function (done) {
+      muk.restore();
+      done();
+    });
+
   });
 
   describe('#show()', function () {
 
     before(function (done) {
-      User.findOne = function () {
+      muk(User, 'findOne', function () {
         var def = Promise.defer();
         def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
         return def.promise;
-      };
+      });
       done();
     });
 
@@ -43,17 +50,22 @@ describe('UsersController', function () {
         .expect(200)
         .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
+
+    after(function (done) {
+      muk.restore();
+      done();
+    });
   });
 
   describe('#create()', function () {
 
     before(function (done) {
-      User.create = function (object) {
+      muk(User, 'create', function (object) {
         var def = Promise.defer();
         object.id = 1;
         def.callback(null, object);
         return def.promise;
-      };
+      });
       done();
     });
 
@@ -67,23 +79,28 @@ describe('UsersController', function () {
         .expect(200)
         .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
     });
+
+    after(function (done) {
+      muk.restore();
+      done();
+    });
   });
 
   describe('#authenticate()', function () {
 
     before(function (done) {
 
-      User.findOne = function (object) {
+      muk(User, 'findOne', function () {
         var def = Promise.defer();
         def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
         return def.promise;
-      }
+      });
 
-      RestClient.request = function (method, path, option, callback) {
+      muk(RestClient, 'request', function (method, path, option, callback) {
         var def = Promise.defer();
         def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
         return def.promise;
-      }
+      });
 
       done();
     });
@@ -106,6 +123,11 @@ describe('UsersController', function () {
         .expect('Content-Type', /json/)
         .expect(200)
         .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
+    });
+
+    after(function (done) {
+      muk.restore();
+      done();
     });
   });
 
