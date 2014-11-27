@@ -9,7 +9,9 @@ describe('UsersController', function () {
     before(function (done) {
       muk(User, 'find', function () {
         var def = Promise.defer();
-        def.callback(null, [{id: 1, username: 'admin', email: 'admin@example.com'}]);
+        process.nextTick(function () {
+          def.callback(null, [{id: 1, username: 'admin', email: 'admin@example.com'}]);
+        })
         return def.promise;
       })
       done();
@@ -36,7 +38,9 @@ describe('UsersController', function () {
     before(function (done) {
       muk(User, 'findOne', function () {
         var def = Promise.defer();
-        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        process.nextTick(function () {
+          def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        });
         return def.promise;
       });
       done();
@@ -63,7 +67,9 @@ describe('UsersController', function () {
       muk(User, 'create', function (object) {
         var def = Promise.defer();
         object.id = 1;
-        def.callback(null, object);
+        process.nextTick(function () {
+          def.callback(null, object);
+        });
         return def.promise;
       });
       done();
@@ -92,13 +98,17 @@ describe('UsersController', function () {
 
       muk(User, 'findOne', function () {
         var def = Promise.defer();
-        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        process.nextTick(function () {
+          def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        });
         return def.promise;
       });
 
       muk(RestClient, 'request', function (method, path, option, callback) {
         var def = Promise.defer();
-        def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        process.nextTick(function () {
+          def.callback(null, {id: 1, username: 'admin', email: 'admin@example.com'});
+        });
         return def.promise;
       });
 
