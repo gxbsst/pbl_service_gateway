@@ -5,7 +5,7 @@ module.exports = function () {
       var self = this;
       return RestClient.post('/sessions', {login: self.email, password: password});
     }
-  }
+  };
 
   return {
     ask: function (id, password) {
@@ -15,4 +15,4 @@ module.exports = function () {
       })
     }
   }
-}
+};
