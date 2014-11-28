@@ -12,7 +12,7 @@ module.exports = {
     if (option) {
       client[method](path, option, function (err, req, res, obj) {
         RestError.handleError(err, req, res, obj);
-        if (_.isFunction()) {
+        if (_.isFunction(callback)) {
           callback(err, obj);
         } else {
           def.callback(err, obj);
@@ -21,7 +21,7 @@ module.exports = {
     } else {
       client[method](path, function (err, req, res, obj) {
         RestError.handleError(err, req, res, obj);
-        if (_.isFunction()) {
+        if (_.isFunction(callback)) {
           callback(err, obj);
         } else {
           def.callback(err, obj);
