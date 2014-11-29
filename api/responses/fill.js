@@ -16,10 +16,10 @@ module.exports = function fill(promise) {
   promise.then(function (data) {
     return res.json(data);
   }).catch(RestError, function (err) {
-    return res.err(err.code, err.message);
+    return res.json(err.code, err.meta.data);
   }).catch(function (err) {
     if (err.originalError && err.originalError instanceof RestError) {
-      return res.err(err.originalError.code, err.originalError.message);
+      return res.json(err.originalError.code, err.originalError.meta.data);
     }
     return res.err(err.statusCode || 500, err.message || err.toString());
   });

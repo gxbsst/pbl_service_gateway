@@ -11,21 +11,19 @@ module.exports = {
     var client = connections[this.connection].connection;
     if (option) {
       client[method](path, option, function (err, req, res, obj) {
-        RestError.handleError(err, req, res, obj);
+        var error = RestError.handleError(err, req, res, obj) || err;
         if (_.isFunction(callback)) {
-          callback(err, obj);
-        } else {
-          def.callback(err, obj);
+          callback(error, obj);
         }
+        def.callback(error, obj);
       });
     } else {
       client[method](path, function (err, req, res, obj) {
-        RestError.handleError(err, req, res, obj);
+        var error = RestError.handleError(err, req, res, obj) || err;
         if (_.isFunction(callback)) {
-          callback(err, obj);
-        } else {
-          def.callback(err, obj);
+          callback(error, obj);
         }
+        def.callback(error, obj);
       });
     }
     return def.promise;
