@@ -22,6 +22,12 @@ module.exports = {
     },
     last_name: {
       type: 'string'
+    },
+    age: {
+      type: 'integer'
+    },
+    gender: {
+      type: 'integer'
     }
   },
 
