@@ -24,6 +24,6 @@ module.exports = {
   port: 3001,
 
   log: {
-    level: "info"
+    level: "verbose"
   }
 };

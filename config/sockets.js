@@ -24,7 +24,13 @@ module.exports.sockets = {
   onConnect: function(session, socket) {
 
     // By default, do nothing.
+    /*var socketId = sails.sockets.id(socket);
 
+    sails.log.debug(socketId + ' connected.');*/
+
+    /*socket.on('chat message', function(data) {
+      sails.sockets.blast('chat message', data);
+    });*/
   },
 
 
@@ -49,12 +55,13 @@ module.exports.sockets = {
   * flashsockets by adding 'flashsocket' to this list:                       *
   *                                                                          *
   ***************************************************************************/
-  // transports: [
-  //   'websocket',
-  //   'htmlfile',
-  //   'xhr-polling',
-  //   'jsonp-polling'
-  // ],
+  transports: [
+     'websocket',
+     'htmlfile',
+     'xhr-polling',
+     'jsonp-polling',
+     'flashsocket'
+   ],
 
   /***************************************************************************
   *                                                                          *
@@ -91,10 +98,10 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // adapter: 'redis',
-  // host: '127.0.0.1',
-  // port: 6379,
-  // db: 'sails',
+  adapter: 'redis',
+  host: '127.0.0.1',
+  port: 6379,
+  db: 'sails',
   // pass: '<redis auth password>'
 
 
@@ -146,7 +153,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // authorization: false,
+  authorization: false,
 
   /***************************************************************************
   *                                                                          *
@@ -159,7 +166,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // 'backwardsCompatibilityFor0.9SocketClients': false,
+  'backwardsCompatibilityFor0.9SocketClients': false,
 
   /***************************************************************************
   *                                                                          *
@@ -174,7 +181,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // grant3rdPartyCookie: true,
+  grant3rdPartyCookie: true,
 
   /***************************************************************************
   *                                                                          *
@@ -183,6 +190,6 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // origins: '*:*',
+  origins: '*:*'
 
 };

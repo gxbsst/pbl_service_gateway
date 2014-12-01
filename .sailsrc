@@ -1,4 +1,9 @@
 {
+  "hooks": {
+    "cors": false,
+    "views": false
+  },
+
   "generators": {
     "modules": {}
   }
