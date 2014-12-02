@@ -62,7 +62,7 @@ describe('UsersController', function () {
     });
   });
 
-  /*describe('#create()', function () {
+  describe('#create()', function () {
 
     before(function (done) {
       muk(User, 'create', function (object) {
@@ -79,18 +79,18 @@ describe('UsersController', function () {
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
         .post('/users')
-        .send({user: {username: 'admin', email: 'admin@example.com', password: 'admin'}})
+        .send({user: {username: 'admin', email: 'admin@example.com'}})
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect({id: 1, username: 'admin', email: 'admin@example.com'}, done);
+        .expect({username: 'admin', email: 'admin@example.com', id: 1}, done);
     });
 
     after(function (done) {
       muk.restore();
       done();
     });
-  });*/
+  });
 
   describe('#authenticate()', function () {
 
