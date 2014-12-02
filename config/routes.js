@@ -22,15 +22,6 @@
 
 module.exports.routes = {
 
-  '/': 'HomeController.index',
+  '/': 'HomeController.index'
 
-  'GET /users': 'UsersController.index',
-  'POST /users': 'UsersController.create',
-  'GET /users/:id': 'UsersController.show',
-  'POST /users/:id/actions/authenticate': 'UsersController.authenticate',
-
-  'POST /chat/session': 'chat/SessionController.create',
-  'DELETE /chat/session': 'chat/SessionController.destroy',
-
-  'POST /chat/message': 'chat/MessageController.create'
 };

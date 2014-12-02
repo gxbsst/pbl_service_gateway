@@ -45,16 +45,16 @@ server '172.172.172.120',
 
 # Extend the deploy recipe.
 namespace :deploy do
-  desc 'Run tests, prior to an application restart.'
-  task :test do
-    on roles(:app), in: :sequence, wait: 5 do
-      within release_path do
-        execute "npm", "install", "-g", "mocha"
-        execute "mocha"
-      end
-    end
-  end
-  after :npm_install, :test
+  #desc 'Run tests, prior to an application restart.'
+  #task :test do
+  #  on roles(:app), in: :sequence, wait: 5 do
+  #    within release_path do
+  #      execute "npm", "install", "-g", "mocha"
+  #      execute "mocha"
+  #    end
+  #  end
+  #end
+  #after :npm_install, :test
 
   desc 'Restart application'
   task :restart do

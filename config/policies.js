@@ -26,7 +26,7 @@ module.exports.policies = {
    *                                                                          *
    ***************************************************************************/
 
-  '*': ['canAccess', 'sessionAuth'],
+  '*': 'canAccess',
 
   /***************************************************************************
    *                                                                          *
@@ -50,10 +50,6 @@ module.exports.policies = {
   // }
 
   HomeController: {
-    '*': true
-  },
-
-  'chat/SessionController': {
     '*': true
   }
 };
