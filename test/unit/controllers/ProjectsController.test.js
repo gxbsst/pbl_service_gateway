@@ -7,7 +7,7 @@ describe('UsersController', function () {
   describe('#create()', function () {
 
     before(function (done) {
-      muk(PBL, 'create', function () {
+      muk(Project, 'create', function () {
         var def = Promise.defer();
         process.nextTick(function () {
           def.callback(null, {id: '971ecce9-b4cb-4e6e-6c17-6b9534983396'});
@@ -19,7 +19,7 @@ describe('UsersController', function () {
 
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .post('/pbls')
+        .post('/projects')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -36,23 +36,23 @@ describe('UsersController', function () {
   describe('#update()', function () {
 
     before(function (done) {
-      var pbl = {
+      var project = {
         id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
         project_name: 'New PBL Project'
       };
 
-      muk(PBL, 'findOne', function () {
+      muk(Project, 'findOne', function () {
         var def = Promise.defer();
         process.nextTick(function () {
-          def.callback(null, pbl);
+          def.callback(null, project);
         });
         return def.promise;
       });
 
-      muk(pbl, 'save', function () {
+      muk(project, 'save', function () {
         var def = Promise.defer();
         process.nextTick(function () {
-          def.callback(null, pbl);
+          def.callback(null, project);
         });
         return def.promise;
       });
@@ -62,9 +62,9 @@ describe('UsersController', function () {
 
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .put('/pbls/971ecce9-b4cb-4e6e-6c17-6b9534983396')
+        .put('/projects/971ecce9-b4cb-4e6e-6c17-6b9534983396')
         .send({
-          pbl: {
+          project: {
             id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
             project_name: 'PBL Project'
           }

@@ -1,6 +1,6 @@
 /**
  *
- * 'pbl': {
+ * 'project': {
     'id': Random.guid(),
 
     'project_name': Random.title(),
@@ -38,13 +38,13 @@
 module.exports = {
 
   create: function (req, res) {
-    return res.fill(PBL.create());
+    return res.fill(Project.create());
   },
 
   update: function (req, res) {
-    return res.fill(PBL.findOne(req.param('id')).then(function (pbl) {
-      _.extend(pbl, req.body.pbl);
-      return pbl.save();
+    return res.fill(Project.findOne(req.param('id')).then(function (project) {
+      _.extend(project, req.body.project);
+      return project.save();
     }));
   }
 
