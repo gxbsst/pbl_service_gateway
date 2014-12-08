@@ -1,6 +1,3 @@
-/**
- * 技能
- */
 module.exports = {
 
   attributes: {
@@ -8,8 +5,14 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    label: {
+    name: {
       type: 'string'
+    },
+    position: {
+      type: 'integer'
+    },
+    skill: {
+      model: 'Skill'
     }
   }
 

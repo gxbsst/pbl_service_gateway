@@ -10,7 +10,8 @@ var Errors = require('waterline-errors').adapter,
   _ = require('lodash'),
   _i = require('underscore.inflections'),
   _s = require('underscore.string'),
-  RestError = require('../errors/RestError');
+  RestError = require('../errors/RestError'),
+  pluralize = require('pluralize');
 
 module.exports = (function () {
   "use strict";
@@ -144,9 +145,9 @@ module.exports = (function () {
     }
 
     // if resource name not set in config,
-    // try to get it from pluralized form of '#{collectionName}s'
+    // try to get it from pluralized form of collectionName
     if (!config.resource) {
-      config.resource = _i.pluralize(collectionName + 's');
+      config.resource = _i.pluralize(collectionName);
     }
 
     pathname = config.getPathname(config, restMethod, values, options);

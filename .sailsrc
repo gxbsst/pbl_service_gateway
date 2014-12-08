@@ -1,6 +1,5 @@
 {
   "hooks": {
-    "blueprints": false,
     "cors": false,
     "csrf": false,
     "pubsub": false,

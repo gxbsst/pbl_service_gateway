@@ -176,7 +176,7 @@ module.exports = function (sails) {
       function _getMiddlewareForShadowRoute(controllerId, actionId) {
 
         // Allow custom actions defined in controller to override resource actions.
-        return sails.middleware.controllers[controllerId][actionId.toLowerCase()] || hook.middleware[actionId];
+        return sails.controllers[controllerId][actionId.toLowerCase()];
       }
     }
   }
