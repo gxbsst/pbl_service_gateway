@@ -1,6 +1,3 @@
-/**
- * 技能
- */
 module.exports = {
 
   attributes: {
@@ -11,8 +8,11 @@ module.exports = {
     title: {
       type: 'string'
     },
-    categories: {
-      collection: 'SkillCategory'
+    subject: {
+      model: 'CurriculumSubject'
+    },
+    curriculums: {
+      collection: 'CurriculumCurriculum'
     }
   }
 

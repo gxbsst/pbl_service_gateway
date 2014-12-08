@@ -10,18 +10,16 @@ module.exports = {
     },
 
     // 项目名称
-    project_name: {
+    name: {
       type: 'string'
     },
 
-    // 选择的课标
-    curriculum_standards: {
-      collection: 'CurriculumStandard'
+    state: {
+      type: 'string'
     },
 
-    // 选择的技能
-    skills: {
-      collection: 'Skill'
+    description: {
+      type: 'string'
     },
 
     // 驱动性问题
@@ -34,7 +32,37 @@ module.exports = {
       type: 'string'
     },
 
-    // 课标分解
+    duration: {
+      type: 'integer'
+    },
+
+    public: {
+      type: 'boolean'
+    },
+
+    limitation: {
+      type: 'string'
+    },
+
+    location_id: {
+      type: 'string'
+    },
+
+    grade_id: {
+      type: 'string'
+    }
+
+    /*// 选择的课标
+    curriculum_standards: {
+      collection: 'CurriculumStandard'
+    },
+
+    // 选择的技能
+    skills: {
+      collection: 'Skill'
+    },*/
+
+    /*// 课标分解
     standard_decompositions: {
       type: 'array'
     },
@@ -47,7 +75,7 @@ module.exports = {
     // 阶段性产品
     stage_products: {
       collection: 'Product'
-    }
+    }*/
   }
 };
 

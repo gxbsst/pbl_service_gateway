@@ -1,5 +1,6 @@
 var _ = require('lodash')
-  , util = require('util');
+  , util = require('util')
+  , humps = require('humps');
 
 /**
  * Resources (User Hook)
@@ -111,7 +112,7 @@ module.exports = function (sails) {
         var actions = Object.keys(sails.controllers[controllerId]);
 
         // Determine base route
-        var baseRoute = config.prefix + '/' + controllerId;
+        var baseRoute = config.prefix + '/' + humps.decamelize(globalId);
 
         // Build route options for resource
         var routeOpts = config;
@@ -125,7 +126,7 @@ module.exports = function (sails) {
           }, routeOpts);
 
           // Bind a route based on the action name, if `actions` shadows enabled
-          if (config.actions && !actionId.match(/^index$|^create$|^show$|^update$|^new$|^edit$|^destroy$/i)) {
+          if (config.actions && !actionId.match(/^index$|^create$|^show$|^update$|^fresh$|^edit$|^destroy$/i)) {
             var actionRoute = 'POST ' + baseRoute + '/:id/actions/' + actionId.toLowerCase();
             sails.log.silly('Binding action (' + actionId.toLowerCase() + ') resource/shadow route for controller:', controllerId);
             sails.router.bind(actionRoute, controller[actionId.toLowerCase()], null, opts);
@@ -154,7 +155,7 @@ module.exports = function (sails) {
 
           _bindRoute(_getRoute('GET %s'), 'index');
           _bindRoute(_getRoute('POST %s'), 'create');
-          _bindRoute(_getRoute('GET %s/new'), 'new');
+          _bindRoute(_getRoute('GET %s/new'), 'fresh');
           _bindRoute(_getRoute('GET %s/:id/edit'), 'edit');
           _bindRoute(_getRoute('GET %s/:id'), 'show');
           _bindRoute(_getRoute('PATCH %s/:id'), 'update');

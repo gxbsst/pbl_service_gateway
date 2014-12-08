@@ -5,14 +5,14 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    name: {
+    title: {
       type: 'string'
     },
-    position: {
-      type: 'integer'
+    phase: {
+      model: 'CurriculumPhase'
     },
-    skill: {
-      model: 'Skill'
+    items: {
+      collection: 'CurriculumCurriculumitem'
     }
   }
 
