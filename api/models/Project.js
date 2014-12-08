@@ -35,7 +35,7 @@ module.exports = {
     },
 
     // 课标分解
-    standard_decomposition: {
+    standard_decompositions: {
       type: 'array'
     },
 
