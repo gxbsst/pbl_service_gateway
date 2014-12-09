@@ -42,8 +42,6 @@
  */
 module.exports = {
 
-  namespace: 'pbl',
-
   index: function(req, res) {
     return res.fill(Pbl.Project.find());
   },
