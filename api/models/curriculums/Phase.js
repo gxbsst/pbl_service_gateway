@@ -14,6 +14,8 @@ module.exports = {
     curriculums: {
       collection: 'Curriculum'
     }
-  }
+  },
+
+  namespace: 'curriculum'
 
 };
