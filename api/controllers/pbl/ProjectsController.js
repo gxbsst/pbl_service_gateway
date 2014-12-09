@@ -43,11 +43,11 @@
 module.exports = {
 
   index: function(req, res) {
-    return res.fill(Pbl.Project.find());
+    return res.fill(Pbl.Project.find(res.query));
   },
 
   show: function(req, res) {
-    return res.fill(Pbl.Project.findOne({_id: req.param('id')}));
+    return res.fill(Pbl.Project.findOne(_.merge({_id: req.param('id')}, req.query)));
   },
 
   create: function (req, res) {

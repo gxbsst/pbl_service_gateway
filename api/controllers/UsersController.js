@@ -10,7 +10,7 @@ var Authentication = require('../contexts/Authentication');
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(User.find());
+    return res.fill(User.find(req.query));
   },
 
   create: function (req, res) {
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   show: function (req, res) {
-    return res.fill(User.findOne({_id: req.param('id')}));
+    return res.fill(User.findOne(_.merge({_id: req.param('id')}, req.query)));
   },
 
   authenticate: function (req, res) {

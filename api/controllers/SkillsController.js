@@ -8,11 +8,11 @@
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(Skill.find());
+    return res.fill(Skill.find(res.query));
   },
 
   show: function (req, res) {
-    return res.fill(Skill.findOne({_id: req.param('id')}));
+    return res.fill(Skill.findOne(_.merge({_id: req.param('id')}, req.query)));
   },
 
   update: function (req, res) {

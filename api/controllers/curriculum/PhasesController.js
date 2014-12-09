@@ -1,11 +1,11 @@
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(Curriculum.Phase.find());
+    return res.fill(Curriculum.Phase.find(req.query));
   },
 
   show: function (req, res) {
-    return res.fill(Curriculum.Phase.findOne({_id: req.param('id')}));
+    return res.fill(Curriculum.Phase.findOne(_.merge({_id: req.param('id')}, req.query)));
   }
 
 };
