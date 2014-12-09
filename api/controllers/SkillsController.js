@@ -12,11 +12,11 @@ module.exports = {
   },
 
   show: function (req, res) {
-    return res.fill(Skill.findOne(req.param('id')));
+    return res.fill(Skill.findOne({_id: req.param('id')}));
   },
 
   update: function (req, res) {
-    return res.fill(Skill.findOne(req.param('id')).then(function (skill) {
+    return res.fill(Skill.findOne({_id: req.param('id')}).then(function (skill) {
       _.extend(skill, req.body.skill);
       return skill.save();
     }));
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   destroy: function (req, res) {
-    return res.fill(Skill.findOne(req.param('id')).then(function (skill) {
+    return res.fill(Skill.findOne({_id: req.param('id')}).then(function (skill) {
       return skill.destroy();
     }));
   }

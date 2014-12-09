@@ -55,14 +55,14 @@ module.exports = {
   },
 
   update: function (req, res) {
-    return res.fill(Pbl.Project.findOne(req.param('id')).then(function (project) {
+    return res.fill(Pbl.Project.findOne({_id: req.param('id')}).then(function (project) {
       _.extend(project, req.body.project);
       return project.save();
     }));
   },
 
   destroy: function(req, res) {
-    return res.fill(Pbl.Project.findOne(req.param('id')).then(function (project) {
+    return res.fill(Pbl.Project.findOne({_id: req.param('id')}).then(function (project) {
       return project.destroy();
     }));
   }

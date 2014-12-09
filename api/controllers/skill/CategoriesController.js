@@ -20,14 +20,14 @@ module.exports = {
   },
 
   update: function (req, res) {
-    return res.fill(Skill.Category.findOne(req.param('id')).then(function (category) {
+    return res.fill(Skill.Category.findOne({_id: req.param('id')}).then(function (category) {
       _.extend(category, req.body.category);
       return category.save();
     }));
   },
 
   destroy: function (req, res) {
-    return res.fill(Skill.Category.findOne(req.param('id')).then(function (category) {
+    return res.fill(Skill.Category.findOne({_id: req.param('id')}).then(function (category) {
       _.extend(category, req.body.category);
       return category.destroy();
     }));
