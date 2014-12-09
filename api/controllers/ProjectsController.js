@@ -48,6 +48,10 @@ module.exports = {
     return res.fill(Project.find());
   },
 
+  show: function(req, res) {
+    return res.fill(Project.findOne({_id: req.param('id')}));
+  },
+
   create: function (req, res) {
     return res.fill(Project.create());
   },
@@ -56,6 +60,12 @@ module.exports = {
     return res.fill(Project.findOne(req.param('id')).then(function (project) {
       _.extend(project, req.body.project);
       return project.save();
+    }));
+  },
+
+  destroy: function(req, res) {
+    return res.fill(Project.findOne(req.param('id')).then(function (project) {
+      return project.destroy();
     }));
   }
 
