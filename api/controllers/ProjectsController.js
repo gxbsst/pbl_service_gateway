@@ -42,12 +42,16 @@
  */
 module.exports = {
 
+  index: function(req, res) {
+    return res.fill(Project.find());
+  },
+
   create: function (req, res) {
-    return res.fill(PblProject.create());
+    return res.fill(Project.create());
   },
 
   update: function (req, res) {
-    return res.fill(PblProject.findOne(req.param('id')).then(function (project) {
+    return res.fill(Project.findOne(req.param('id')).then(function (project) {
       _.extend(project, req.body.project);
       return project.save();
     }));
