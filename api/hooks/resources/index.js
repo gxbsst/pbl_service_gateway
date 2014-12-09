@@ -112,7 +112,12 @@ module.exports = function (sails) {
         var actions = Object.keys(sails.controllers[controllerId]);
 
         // Determine base route
-        var baseRoute = config.prefix + '/' + humps.decamelize(globalId);
+        var baseRoute = config.prefix;
+        if (sails.controllers[controllerId].namespace) {
+          baseRoute += '/' + sails.controllers[controllerId].namespace +  '/' + humps.decamelize(globalId);
+        } else {
+          baseRoute += '/' + humps.decamelize(globalId);
+        }
 
         // Build route options for resource
         var routeOpts = config;
@@ -126,7 +131,7 @@ module.exports = function (sails) {
           }, routeOpts);
 
           // Bind a route based on the action name, if `actions` shadows enabled
-          if (config.actions && !actionId.match(/^index$|^create$|^show$|^update$|^fresh$|^edit$|^destroy$/i)) {
+          if (config.actions && !actionId.match(/^namespace$|^index$|^create$|^show$|^update$|^fresh$|^edit$|^destroy$/i)) {
             var actionRoute = 'POST ' + baseRoute + '/:id/actions/' + actionId.toLowerCase();
             sails.log.silly('Binding action (' + actionId.toLowerCase() + ') resource/shadow route for controller:', controllerId);
             sails.router.bind(actionRoute, controller[actionId.toLowerCase()], null, opts);
