@@ -4,4 +4,4 @@ module.exports = function canAccess(req, res, next) {
     return res.forbidden('The requested version does not match.');
   }
   next();
-}
+};
