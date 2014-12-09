@@ -9,11 +9,13 @@ module.exports = {
       type: 'string'
     },
     phase: {
-      model: 'CurriculumPhase'
+      model: 'Phase'
     },
     items: {
-      collection: 'CurriculumCurriculumitem'
+      collection: 'CurriculumItem'
     }
-  }
+  },
+
+  namespace: 'Curriculum'
 
 };

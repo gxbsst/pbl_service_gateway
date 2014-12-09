@@ -8,12 +8,14 @@ module.exports = {
     title: {
       type: 'string'
     },
-    subject: {
-      model: 'CurriculumSubject'
+    position: {
+      type: 'integer'
     },
-    curriculums: {
-      collection: 'CurriculumCurriculum'
+    category: {
+      model: 'Category'
     }
-  }
+  },
+
+  namespace: 'skill'
 
 };

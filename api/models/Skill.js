@@ -12,7 +12,7 @@ module.exports = {
       type: 'string'
     },
     categories: {
-      collection: 'SkillCategory'
+      collection: 'Category'
     }
   }
 

@@ -148,8 +148,14 @@ module.exports = (function () {
     // if resource name not set in config,
     // try to get it from pluralized form of collectionName
     if (!config.resource) {
+      var namespace = sails.models[collectionName].namespace;
+      var resource = sails.models[collectionName].resource;
       var globalId = sails.models[collectionName].globalId;
-      config.resource = _i.pluralize(humps.decamelize(globalId, '/'));
+      if (namespace) {
+        config.resource = namespace + '/' + (resource || _i.pluralize(humps.decamelize(globalId)));
+      } else {
+        config.resource = (resource || _i.pluralize(humps.decamelize(globalId)));
+      }
     }
 
     pathname = config.getPathname(config, restMethod, values, options);

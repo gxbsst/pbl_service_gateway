@@ -11,9 +11,14 @@ module.exports = {
     position: {
       type: 'integer'
     },
-    phases: {
-      collection: 'CurriculumPhase'
+    skill: {
+      model: 'Skill'
+    },
+    techniques: {
+      collection: 'Technique'
     }
-  }
+  },
+
+  namespace: 'skill'
 
 };

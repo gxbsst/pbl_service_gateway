@@ -76,6 +76,8 @@ module.exports = {
     stage_products: {
       collection: 'Product'
     }*/
-  }
+  },
+
+  namespace: 'pbl'
 };
 
