@@ -45,26 +45,26 @@ module.exports = {
   namespace: 'pbl',
 
   index: function(req, res) {
-    return res.fill(Project.find());
+    return res.fill(Pbl.Project.find());
   },
 
   show: function(req, res) {
-    return res.fill(Project.findOne({_id: req.param('id')}));
+    return res.fill(Pbl.Project.findOne({_id: req.param('id')}));
   },
 
   create: function (req, res) {
-    return res.fill(Project.create());
+    return res.fill(Pbl.Project.create());
   },
 
   update: function (req, res) {
-    return res.fill(Project.findOne(req.param('id')).then(function (project) {
+    return res.fill(Pbl.Project.findOne(req.param('id')).then(function (project) {
       _.extend(project, req.body.project);
       return project.save();
     }));
   },
 
   destroy: function(req, res) {
-    return res.fill(Project.findOne(req.param('id')).then(function (project) {
+    return res.fill(Pbl.Project.findOne(req.param('id')).then(function (project) {
       return project.destroy();
     }));
   }

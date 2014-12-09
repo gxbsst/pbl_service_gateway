@@ -5,17 +5,17 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    name: {
+    title: {
       type: 'string'
     },
     position: {
       type: 'integer'
     },
-    phases: {
-      collection: 'Phase'
+    category: {
+      model: 'Skill.Category'
     }
   },
 
-  namespace: 'curriculum'
+  identity: 'Skill.Technique'
 
 };

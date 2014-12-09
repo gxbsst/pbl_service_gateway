@@ -8,14 +8,14 @@ module.exports = {
     title: {
       type: 'string'
     },
-    position: {
-      type: 'integer'
+    phase: {
+      model: 'Curriculum.Phase'
     },
-    category: {
-      model: 'Category'
+    items: {
+      collection: 'Curriculum.CurriculumItem'
     }
   },
 
-  namespace: 'skill'
+  identity: 'Curriculum.Curriculum'
 
 };

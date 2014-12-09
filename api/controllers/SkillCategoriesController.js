@@ -8,7 +8,7 @@
 module.exports = {
 
   index: function(req, res) {
-    return res.fill(Category.find());
+    return res.fill(Skill.Category.find());
   }
 };
 

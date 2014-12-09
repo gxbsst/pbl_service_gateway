@@ -148,13 +148,12 @@ module.exports = (function () {
     // if resource name not set in config,
     // try to get it from pluralized form of collectionName
     if (!config.resource) {
-      var namespace = sails.models[collectionName].namespace;
-      var resource = sails.models[collectionName].resource;
       var globalId = sails.models[collectionName].globalId;
-      if (namespace) {
-        config.resource = namespace + '/' + (resource || _i.pluralize(humps.decamelize(globalId)));
+      var array = globalId.split('.');
+      if (array.length === 2) {
+        config.resource = array[0].toLowerCase() + '/' + _i.pluralize(humps.decamelize(array[1]));
       } else {
-        config.resource = (resource || _i.pluralize(humps.decamelize(globalId)));
+        config.resource = _i.pluralize(humps.decamelize(array[0]));
       }
     }
 

@@ -78,6 +78,7 @@ module.exports = {
     }*/
   },
 
-  namespace: 'pbl'
+  identity: 'Pbl.Project'
+
 };
 
