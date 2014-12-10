@@ -11,11 +11,11 @@ module.exports = {
     position: {
       type: 'integer'
     },
-    curriculum: {
-      model: 'Curriculum.Curriculum'
+    standard: {
+      model: 'Curriculum.Standard'
     }
   },
 
-  identity: 'Curriculum.CurriculumItem'
+  identity: 'Curriculum.StandardItem'
 
 };

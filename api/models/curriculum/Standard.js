@@ -8,14 +8,17 @@ module.exports = {
     title: {
       type: 'string'
     },
+    position: {
+      type: 'integer'
+    },
     phase: {
       model: 'Curriculum.Phase'
     },
     items: {
-      collection: 'Curriculum.CurriculumItem'
+      collection: 'Curriculum.StandardItem'
     }
   },
 
-  identity: 'Curriculum.Curriculum'
+  identity: 'Curriculum.Standard'
 
 };
