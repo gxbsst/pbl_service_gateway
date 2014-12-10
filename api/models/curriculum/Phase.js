@@ -11,8 +11,8 @@ module.exports = {
     subject: {
       model: 'Curriculum.Subject'
     },
-    curriculums: {
-      collection: 'Curriculum.Curriculum'
+    standards: {
+      collection: 'Curriculum.Standard'
     }
   },
 
