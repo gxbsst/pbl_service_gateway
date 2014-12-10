@@ -94,7 +94,11 @@ module.exports = (function () {
    * @returns {Object}
    */
   function getPathname(config, method, values, options) {
-    return config.pathname + '/' + config.namespace + '/' + _i.pluralize(config.resource) + (config.action ? '/' + config.action : '');
+    var ns = '';
+    if (config.namespace) {
+      ns += config.namespace + '/';
+    }
+    return config.pathname + '/' + ns + _i.pluralize(config.resource) + (config.action ? '/' + config.action : '');
   }
 
   /**

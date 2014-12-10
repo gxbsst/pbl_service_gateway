@@ -2,12 +2,12 @@ var Promise = require('bluebird')
   , request = require('supertest')
   , muk = require('muk');
 
-describe('UsersController', function () {
+describe('pbl/ProjectsController', function () {
 
   describe('#create()', function () {
 
     before(function (done) {
-      muk(Project, 'create', function () {
+      muk(Pbl.Project, 'create', function () {
         var def = Promise.defer();
         process.nextTick(function () {
           def.callback(null, {id: '971ecce9-b4cb-4e6e-6c17-6b9534983396'});
@@ -19,7 +19,7 @@ describe('UsersController', function () {
 
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .post('/projects')
+        .post('/pbl/projects')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -41,15 +41,7 @@ describe('UsersController', function () {
         project_name: 'New PBL Project'
       };
 
-      muk(Project, 'findOne', function () {
-        var def = Promise.defer();
-        process.nextTick(function () {
-          def.callback(null, project);
-        });
-        return def.promise;
-      });
-
-      muk(project, 'save', function () {
+      muk(Pbl.Project, 'update', function () {
         var def = Promise.defer();
         process.nextTick(function () {
           def.callback(null, project);
@@ -62,7 +54,7 @@ describe('UsersController', function () {
 
     it('should respond with json', function (done) {
       request(sails.hooks.http.app)
-        .put('/projects/971ecce9-b4cb-4e6e-6c17-6b9534983396')
+        .put('/pbl/projects/971ecce9-b4cb-4e6e-6c17-6b9534983396')
         .send({
           project: {
             id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
@@ -74,7 +66,7 @@ describe('UsersController', function () {
         .expect(200)
         .expect({
           id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
-          project_name: 'PBL Project'
+          project_name: 'New PBL Project'
         }, done);
     });
 
