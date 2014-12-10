@@ -104,11 +104,12 @@ module.exports = (function () {
    * @returns {{}}
    */
   function pack(config, values) {
-    if (values) {
+    if (values && !_.isEmpty(values)) {
       var body = {};
       body[config.resource] = values;
       return body;
     }
+    return values;
   }
 
   /**
@@ -242,7 +243,7 @@ module.exports = (function () {
         var path = uri.replace(connection.url.href, '/');
 
         // Make request via restify
-        if (opt) {
+        if (opt && !_.isEmpty(opt)) {
           connection[restMethod](path, opt, cb);
         } else {
           connection[restMethod](path, cb);
