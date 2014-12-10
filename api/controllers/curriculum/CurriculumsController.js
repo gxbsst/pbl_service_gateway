@@ -1,11 +1,23 @@
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(Curriculum.Curriculum.find());
+    Curriculum.Curriculum.proxyIndex(req, res);
   },
 
   show: function (req, res) {
-    return res.fill(Curriculum.Curriculum.findOne(_.merge({_id: req.param('id')}, req.query)));
+    Curriculum.Curriculum.proxyShow(req, res);
+  },
+
+  create: function (req, res) {
+    Curriculum.Curriculum.proxyCreate(req, res);
+  },
+
+  update: function (req, res) {
+    Curriculum.Curriculum.proxyUpdate(req, res);
+  },
+
+  destroy: function (req, res) {
+    Curriculum.Curriculum.proxyDestroy(req, res);
   }
 
 };

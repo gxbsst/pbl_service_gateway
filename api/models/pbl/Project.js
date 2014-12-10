@@ -1,6 +1,7 @@
 /**
  * PBL项目
  */
+
 module.exports = {
 
   attributes: {
@@ -50,6 +51,11 @@ module.exports = {
 
     grade_id: {
       type: 'string'
+    },
+
+    // 课标分解
+    standard_decompositions: {
+      collection: 'Pbl.StandardDecomposition'
     }
 
     /*// 选择的课标

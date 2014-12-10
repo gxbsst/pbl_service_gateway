@@ -8,28 +8,23 @@
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(Skill.find(res.query));
+    Skill.proxyIndex(req, res);
   },
 
   show: function (req, res) {
-    return res.fill(Skill.findOne(_.merge({_id: req.param('id')}, req.query)));
+    Skill.proxyShow(req, res);
   },
 
   update: function (req, res) {
-    return res.fill(Skill.findOne({_id: req.param('id')}).then(function (skill) {
-      _.extend(skill, req.body.skill);
-      return skill.save();
-    }));
+    Skill.proxyUpdate(req, res);
   },
 
   create: function (req, res) {
-    return res.fill(Skill.create());
+    Skill.proxyCreate(req, res);
   },
 
   destroy: function (req, res) {
-    return res.fill(Skill.findOne({_id: req.param('id')}).then(function (skill) {
-      return skill.destroy();
-    }));
+    Skill.proxyDestroy(req, res);
   }
 };
 

@@ -94,20 +94,21 @@ module.exports = (function () {
    * @returns {Object}
    */
   function getPathname(config, method, values, options) {
-    return config.pathname + '/' + config.resource + (config.action ? '/' + config.action : '');
+    return config.pathname + '/' + config.namespace + '/' + _i.pluralize(config.resource) + (config.action ? '/' + config.action : '');
   }
 
   /**
-   * 根据collectionName和values来构建请求数据体
+   * 根据resource和values来构建请求数据体
    *
-   * @param collectionName
    * @param values
    * @returns {{}}
    */
-  function getRequestBody(collectionName, values) {
-    var body = {};
-    body[collectionName] = values;
-    return body;
+  function pack(config, values) {
+    if (values) {
+      var body = {};
+      body[config.resource] = values;
+      return body;
+    }
   }
 
   /**
@@ -151,11 +152,15 @@ module.exports = (function () {
       var globalId = sails.models[collectionName].globalId;
       var array = globalId.split('.');
       if (array.length === 2) {
-        config.resource = array[0].toLowerCase() + '/' + _i.pluralize(humps.decamelize(array[1]));
+        config.namespace = array[0].toLowerCase();
+        config.resource = humps.decamelize(array[1]);
       } else {
-        config.resource = _i.pluralize(humps.decamelize(array[0]));
+        config.resource = humps.decamelize(array[0]);
       }
     }
+    config.namespace = config.namespace || '';
+
+    values = pack(config, values);
 
     pathname = config.getPathname(config, restMethod, values, options);
 
@@ -347,7 +352,7 @@ module.exports = (function () {
     connections: connections,
 
     create: function (connection, collectionName, values, cb) {
-      makeRequest(connection, collectionName, 'create', cb, null, getRequestBody(collectionName, values));
+      makeRequest(connection, collectionName, 'create', cb, null, values);
     },
 
     findOne: function (connection, collectionName, options, cb) {
@@ -359,7 +364,7 @@ module.exports = (function () {
     },
 
     update: function (connection, collectionName, options, values, cb) {
-      makeRequest(connection, collectionName, 'update', cb, options, getRequestBody(collectionName, values));
+      makeRequest(connection, collectionName, 'update', cb, options, values);
     },
 
     destroy: function (connection, collectionName, options, cb) {

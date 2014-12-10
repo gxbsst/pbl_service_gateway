@@ -10,15 +10,15 @@ var Authentication = require('../contexts/Authentication');
 module.exports = {
 
   index: function (req, res) {
-    return res.fill(User.find(req.query));
+    User.proxyIndex(req, res);
   },
 
   create: function (req, res) {
-    return res.fill(User.create(req.body.user));
+    User.proxyCreate(req, res);
   },
 
   show: function (req, res) {
-    return res.fill(User.findOne(_.merge({_id: req.param('id')}, req.query)));
+    User.proxyShow(req, res);
   },
 
   authenticate: function (req, res) {
