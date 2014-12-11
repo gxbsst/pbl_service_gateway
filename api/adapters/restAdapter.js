@@ -169,11 +169,11 @@ module.exports = (function () {
 
     pathname = config.getPathname(config, restMethod, values, options);
 
-    if (options && options.where) {
-      if (options.where._id) {
+    if (options || options.where) {
+      if (options._id || options.where._id) {
         // Add id to pathname if provided
-        pathname += '/' + options.where._id;
-        delete options.where._id;
+        pathname += '/' + (options._id || options.where._id);
+        delete (options._id || options.where._id);
       } else if (methodName === 'destroy' || methodName === 'update') {
         // Find all and make new request for each.
         makeRequest(identity, collectionName, 'find', function (err, results) {
@@ -369,6 +369,10 @@ module.exports = (function () {
     },
 
     update: function (connection, collectionName, options, values, cb) {
+      makeRequest(connection, collectionName, 'update', cb, options, values);
+    },
+
+    updateOne: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'update', cb, options, values);
     },
 

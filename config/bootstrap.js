@@ -28,7 +28,12 @@ module.exports.bootstrap = function (cb) {
     },
 
     proxyUpdate: function (req, res) {
-      return res.fill(this.update({_id: req.param('id')}, req.body[this.resource]));
+      return this.updateOne({_id: req.param('id')}, req.body[this.resource], function (err, data) {
+        if (err) {
+          return res.json(err.code, err.meta.data);
+        }
+        return res.json(data);
+      });
     },
 
     proxyDestroy: function (req, res) {
