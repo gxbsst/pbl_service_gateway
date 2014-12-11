@@ -28,7 +28,7 @@ module.exports.bootstrap = function (cb) {
     },
 
     proxyUpdate: function (req, res) {
-      return this.updateOne({_id: req.param('id')}, req.body[this.resource], function (err, data) {
+      return this.updateOne({where: {_id: req.param('id')}}, req.body[this.resource], function (err, data) {
         if (err) {
           return res.json(err.code, err.meta.data);
         }
