@@ -5,14 +5,17 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    title: {
+    name: {
       type: 'string'
     },
-    subject: {
-      model: 'Curriculum.Subject'
+    position: {
+      type: 'integer'
+    },
+    subject_id: {
+      type: 'string'
     },
     standards: {
-      collection: 'Curriculum.Standard'
+      type: 'array'
     }
   },
 

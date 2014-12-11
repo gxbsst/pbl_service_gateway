@@ -11,8 +11,8 @@ module.exports = {
     position: {
       type: 'integer'
     },
-    standard: {
-      model: 'Curriculum.Standard'
+    standard_id: {
+      type: 'string'
     }
   },
 

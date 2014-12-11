@@ -11,11 +11,11 @@ module.exports = {
     position: {
       type: 'integer'
     },
-    phase: {
-      model: 'Curriculum.Phase'
+    phase_id: {
+      type: "string"
     },
     items: {
-      collection: 'Curriculum.StandardItem'
+      type: 'array'
     }
   },
 

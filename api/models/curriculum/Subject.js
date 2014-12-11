@@ -12,7 +12,7 @@ module.exports = {
       type: 'integer'
     },
     phases: {
-      collection: 'Curriculum.Phase'
+      type: 'array'
     }
   },
 
