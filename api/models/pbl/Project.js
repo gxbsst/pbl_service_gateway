@@ -10,6 +10,14 @@ module.exports = {
       primaryKey: true
     },
 
+    user: {
+      type: 'json'
+    },
+
+    user_id: {
+      type: 'string'
+    },
+
     // 项目名称
     name: {
       type: 'string'
@@ -55,7 +63,7 @@ module.exports = {
 
     // 课标分解
     standard_decompositions: {
-      collection: 'Pbl.StandardDecomposition'
+      type: 'array'
     }
 
     /*// 选择的课标
