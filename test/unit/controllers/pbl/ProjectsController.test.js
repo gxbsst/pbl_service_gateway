@@ -1,33 +1,35 @@
-var Promise = require('bluebird')
-  , request = require('supertest')
-  , muk = require('muk');
+var request = require('supertest')
+  , nock = require('nock');
 
 describe('pbl/ProjectsController', function () {
 
   describe('#create()', function () {
 
     before(function (done) {
-      muk(Pbl.Project, 'create', function () {
-        var def = Promise.defer();
-        process.nextTick(function () {
-          def.callback(null, {id: '971ecce9-b4cb-4e6e-6c17-6b9534983396'});
-        })
-        return def.promise;
-      })
+      nock("http://localhost:3000")
+        .post("/pbl/projects")
+        .reply(200, {
+          name: "Project",
+          description: "PBL Project",
+          driven_issue: "驱动性问题"
+        });
       done();
     });
 
-    it('should respond with json', function (done) {
+    it('should respond with 200', function (done) {
       request(sails.hooks.http.app)
         .post('/pbl/projects')
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
-        .expect(200)
-        .expect({id: '971ecce9-b4cb-4e6e-6c17-6b9534983396'}, done);
+        .expect(200, {
+          name: "Project",
+          description: "PBL Project",
+          driven_issue: "驱动性问题"
+        }, done);
     });
 
     after(function (done) {
-      muk.restore();
+      nock.cleanAll();
       done();
     });
 
@@ -36,19 +38,13 @@ describe('pbl/ProjectsController', function () {
   describe('#update()', function () {
 
     before(function (done) {
-      var project = {
-        id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
-        project_name: 'New PBL Project'
-      };
-
-      muk(Pbl.Project, 'update', function () {
-        var def = Promise.defer();
-        process.nextTick(function () {
-          def.callback(null, project);
+      nock("http://localhost:3000")
+        .put("/pbl/projects/971ecce9-b4cb-4e6e-6c17-6b9534983396")
+        .reply(200, {
+          name: "PBL Project",
+          description: "PBL Project",
+          driven_issue: "驱动性问题"
         });
-        return def.promise;
-      });
-
       done();
     });
 
@@ -57,21 +53,21 @@ describe('pbl/ProjectsController', function () {
         .put('/pbl/projects/971ecce9-b4cb-4e6e-6c17-6b9534983396')
         .send({
           project: {
-            id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
-            project_name: 'PBL Project'
+            name: 'PBL Project'
           }
         })
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
         .expect('Content-Type', /json/)
         .expect(200)
         .expect({
-          id: '971ecce9-b4cb-4e6e-6c17-6b9534983396',
-          project_name: 'New PBL Project'
+          name: "PBL Project",
+          description: "PBL Project",
+          driven_issue: "驱动性问题"
         }, done);
     });
 
     after(function (done) {
-      muk.restore();
+      nock.cleanAll();
       done();
     });
 

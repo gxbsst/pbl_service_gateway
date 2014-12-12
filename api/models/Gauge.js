@@ -1,7 +1,6 @@
 /**
- * 课标分解
+ * 量规
  */
-
 module.exports = {
 
   attributes: {
@@ -9,26 +8,30 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    role: {
+    level_1: {
       type: 'string'
     },
-    verb: {
+    level_2: {
       type: 'string'
     },
-    technique: {
+    level_3: {
       type: 'string'
     },
-    noun: {
+    level_4: {
       type: 'string'
     },
-    product_name: {
+    level_5: {
       type: 'string'
     },
-    project_id: {
+    level_6: {
+      type: 'string'
+    },
+    level_7: {
+      type: 'string'
+    },
+    technique_id: {
       type: 'string'
     }
-  },
-
-  identity: 'Pbl.StandardDecomposition'
+  }
 
 };

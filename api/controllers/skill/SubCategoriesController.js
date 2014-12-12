@@ -7,6 +7,10 @@
 
 module.exports = {
 
+  index: function (req, res) {
+    Skill.SubCategory.proxyIndex(req, res);
+  },
+
   show: function (req, res) {
     Skill.SubCategory.proxyShow(req, res);
   },

@@ -16,7 +16,12 @@ module.exports = {
 
     // 产品形态
     form: {
-      model: 'ProductForm'
+      type: 'string'
+    },
+
+    // 是否是最终产品
+    is_final: {
+      type: 'boolean'
     },
 
     // 产品示例
@@ -24,10 +29,11 @@ module.exports = {
       type: 'array'
     },
 
-    // 是否是最终产品
-    is_final: {
-      type: 'boolean'
+    project_id: {
+      type: 'string'
     }
-  }
+  },
+
+  identity: 'Pbl.Product'
 
 };

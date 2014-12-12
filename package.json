@@ -34,7 +34,8 @@
   "devDependencies": {
     "mocha": "^1.17.1",
     "supertest": "^0.13.0",
-    "muk": "^0.3.1"
+    "muk": "^0.3.1",
+    "nock": "^0.51.0"
   },
   "scripts": {
     "start": "node app.js",

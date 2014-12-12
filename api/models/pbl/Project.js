@@ -64,6 +64,14 @@ module.exports = {
     // 课标分解
     standard_decompositions: {
       type: 'array'
+    },
+
+    products: {
+      type: 'array'
+    },
+
+    project_techniques: {
+      type: 'array'
     }
 
     /*// 选择的课标
