@@ -372,11 +372,27 @@ module.exports = (function () {
       makeRequest(connection, collectionName, 'update', cb, options, values);
     },
 
-    updateOne: function (connection, collectionName, options, values, cb) {
+    destroy: function (connection, collectionName, options, cb) {
+      makeRequest(connection, collectionName, 'destroy', cb, options);
+    },
+
+    $find: function (connection, collectionName, options, values, cb) {
+      makeRequest(connection, collectionName, 'find', cb, options);
+    },
+
+    $findOne: function (connection, collectionName, options, values, cb) {
+      makeRequest(connection, collectionName, 'find', cb, options);
+    },
+
+    $create: function (connection, collectionName, options, values, cb) {
+      makeRequest(connection, collectionName, 'create', cb, null, values);
+    },
+
+    $update: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'update', cb, options, values);
     },
 
-    destroy: function (connection, collectionName, options, cb) {
+    $destroy: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'destroy', cb, options);
     },
 

@@ -63,6 +63,9 @@ module.exports = function (sails) {
       if (sails.hooks.controllers) {
         eventsToWaitFor.push('hook:controllers:loaded');
       }
+      if (sails.hooks.expansions) {
+        eventsToWaitFor.push('hook:expansions:loaded');
+      }
       sails.after(eventsToWaitFor, hook.bindShadowRoutes);
 
       cb();

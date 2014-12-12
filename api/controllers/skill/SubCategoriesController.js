@@ -7,25 +7,7 @@
 
 module.exports = {
 
-  index: function (req, res) {
-    Skill.SubCategory.proxyIndex(req, res);
-  },
-
-  show: function (req, res) {
-    Skill.SubCategory.proxyShow(req, res);
-  },
-
-  create: function (req, res) {
-    Skill.SubCategory.proxyCreate(req, res);
-  },
-
-  update: function (req, res) {
-    Skill.SubCategory.proxyUpdate(req, res);
-  },
-
-  destroy: function (req, res) {
-    Skill.SubCategory.proxyDestroy(req, res);
-  }
+  resource: 'Skill.SubCategory'
 
 };
 
