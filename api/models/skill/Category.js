@@ -11,11 +11,8 @@ module.exports = {
     position: {
       type: 'integer'
     },
-    skill: {
-      model: 'Skill'
-    },
-    techniques: {
-      collection: 'Skill.Technique'
+    sub_categories: {
+      type: 'array'
     }
   },
 

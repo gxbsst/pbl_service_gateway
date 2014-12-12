@@ -5,17 +5,20 @@ module.exports = {
       type: 'string',
       primaryKey: true
     },
-    title: {
+    name: {
       type: 'string'
     },
     position: {
       type: 'integer'
     },
-    sub_category_id: {
+    category_id: {
       type: 'string'
+    },
+    techniques: {
+      type: 'array'
     }
   },
 
-  identity: 'Skill.Technique'
+  identity: 'Skill.SubCategory'
 
 };
