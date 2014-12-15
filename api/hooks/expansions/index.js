@@ -126,7 +126,7 @@ module.exports = function (sails) {
       _.each(sails.controllers, function eachController(controller) {
         if (controller.resource) {
           // 扩展 controller
-          _.extend(controller, extendController(controller.resource));
+          _.defaults(controller, extendController(controller.resource));
         }
       });
     }
