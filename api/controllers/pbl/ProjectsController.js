@@ -8,32 +8,24 @@ module.exports = {
     return res.fill(Pbl.Project.$$findOne({where: _.merge({_id: req.param('id')}, req.query)}).then(function (project) {
 
       var findTechniques;
-
       var findStandardItems;
-
       var findRules;
 
       if (project.techniques
         && _.isArray(project.techniques)
-        && project.techniques.length > 0
-        &&  _.isString(project.techniques[0])) {
-
+        && project.techniques.length > 0) {
         findTechniques = Skill.Technique.$$find({where: {_id: project.techniques.join()}});
       }
 
       if (project.standard_items
         && _.isArray(project.standard_items)
-        && project.standard_items.length > 0
-        &&  _.isString(project.standard_items[0])) {
-
+        && project.standard_items.length > 0) {
         findStandardItems = Curriculum.StandardItem.$$find({where: {_id: project.standard_items.join()}});
       }
 
       if (project.rules
         && _.isArray(project.rules)
-        && project.rules.length > 0
-        &&  _.isString(project.rules[0])) {
-
+        && project.rules.length > 0) {
         findRules = Pbl.Rule.$$find({where: {_id: project.rules.join()}});
       }
 
