@@ -1,5 +1,7 @@
 module.exports = {
 
-  identity: 'Pbl.Knowledge'
+  identity: 'Pbl.Knowledge',
+
+  pluralize: false
 
 };

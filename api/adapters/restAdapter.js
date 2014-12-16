@@ -98,7 +98,11 @@ module.exports = (function () {
     if (config.namespace) {
       ns += config.namespace + '/';
     }
-    return config.pathname + '/' + ns + _i.pluralize(config.resource) + (config.action ? '/' + config.action : '');
+    var resource = config.resource;
+    if (config.pluralize) {
+      resource = _i.pluralize(config.resource);
+    }
+    return config.pathname + '/' + ns + resource + (config.action ? '/' + config.action : '');
   }
 
   /**
@@ -164,6 +168,11 @@ module.exports = (function () {
       }
     }
     config.namespace = config.namespace || '';
+
+    config.pluralize = sails.models[collectionName].pluralize;
+    if (!_.isBoolean(config.pluralize)) {
+      config.pluralize = true;
+    }
 
     values = pack(config, values);
 
