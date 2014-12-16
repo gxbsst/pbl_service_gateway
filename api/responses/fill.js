@@ -16,10 +16,23 @@ module.exports = function fill(promise) {
   if (promise) {
     promise.then(function (data) {
       // 剔除null元素
-      for (var v in data) {
-        if (v === null) {
-          delete data[v];
-        }
+      if (_.isObject(data)) {
+        _.each(data, function (val, attr) {
+          if (val === null) {
+            delete data[attr];
+          }
+        });
+      }
+      if (data.data && _.isArray(data.data)) {
+        _.each(data.data, function (el) {
+          if (_.isObject(el)) {
+            _.each(el, function (val, attr) {
+              if (val === null) {
+                delete el[attr];
+              }
+            });
+          }
+        });
       }
       return res.json(data);
     }).catch(RestError, function (err) {
