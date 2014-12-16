@@ -15,6 +15,12 @@ module.exports = function fill(promise) {
 
   if (promise) {
     promise.then(function (data) {
+      // 剔除null元素
+      for (var v in data) {
+        if (v === null) {
+          delete data[v];
+        }
+      }
       return res.json(data);
     }).catch(RestError, function (err) {
       return res.json(err.code, err.meta.data);
