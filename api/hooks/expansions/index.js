@@ -1,4 +1,5 @@
-var Promise = require('bluebird');
+var Promise = require('bluebird'),
+  humps = require('humps');
 
 module.exports = function (sails) {
 
@@ -70,16 +71,27 @@ module.exports = function (sails) {
         },
 
         proxyCreate: function (req, res) {
-          return res.fill(this.$$create(req.body[this.resource]));
+          return res.fill(this.$$create(req.body[this.getModelResource()]));
         },
 
         proxyUpdate: function (req, res) {
-          return res.fill(this.$$update({where: {_id: req.param('id')}}, req.body[this.resource]));
+          return res.fill(this.$$update({where: {_id: req.param('id')}}, req.body[this.getModelResource()]));
         },
 
         proxyDestroy: function (req, res) {
           return res.fill(this.$$destroy({where: {_id: req.param('id')}}));
+        },
+
+        getModelResource: function () {
+          var globalId = this.globalId;
+          var array = globalId.split('.');
+          if (array.length === 2) {
+            return humps.decamelize(array[1]);
+          } else {
+            return humps.decamelize(array[0]);
+          }
         }
+
       };
 
       _.each(sails.models, function eachModel(model) {
