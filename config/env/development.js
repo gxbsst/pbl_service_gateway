@@ -18,7 +18,8 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-     connection: 'baseServiceV1'
+     // connection: 'baseServiceV1'
+    connection: 'internalServiceV1'
   },
 
   port: 3001,

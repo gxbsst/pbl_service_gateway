@@ -29,7 +29,7 @@ module.exports = {
         findRules = Pbl.Rule.$$find({where: {_id: project.rules.join()}});
       }
 
-      var joinedPromise = Promise.join(findTechniques, findStandardItems, findRules, function (techniques, standard_items, rules) {
+      return Promise.join(findTechniques, findStandardItems, findRules, function (techniques, standard_items, rules) {
         if (techniques) {
           project.techniques = techniques;
         }
@@ -41,13 +41,6 @@ module.exports = {
         }
         return project;
       });
-
-      // 无论join的过程出错与否，始终返回project
-      var def = Promise.defer();
-      joinedPromise.finally(function () {
-        def.callback(null, project);
-      });
-      return def.promise;
 
     }));
   }
