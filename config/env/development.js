@@ -18,8 +18,8 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-     // connection: 'baseServiceV1'
-    connection: 'internalServiceV1'
+     // connection: 'localhostServiceV1'
+    connection: 'lan120ServiceV1'
   },
 
   port: 3001,

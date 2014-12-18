@@ -49,7 +49,7 @@ module.exports.connections = {
     }
   },*/
 
-  baseServiceV1: {
+  localhostServiceV1: {
     adapter: 'rest',
     type: 'json',
     hostname: 'localhost',
@@ -74,7 +74,7 @@ module.exports.connections = {
     }
   },
 
-  internalServiceV1: {
+  lan120ServiceV1: {
     adapter: 'rest',
     type: 'json',
     hostname: '172.172.172.120',

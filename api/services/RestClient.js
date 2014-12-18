@@ -4,7 +4,7 @@ var Promise = require("bluebird"),
 
 module.exports = {
 
-  connection: 'baseServiceV1',
+  connection: 'localhostServiceV1',
 
   request: function (method, path, option, callback) {
     var def = Promise.defer();
