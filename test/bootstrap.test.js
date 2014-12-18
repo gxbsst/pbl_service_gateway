@@ -21,7 +21,9 @@ before(function (done) {
     // app config
     models: {
       connection: 'localhostServiceV1'
-    }
+    },
+
+    port: 5001
 
   }, function (err, sails) {
     if (err) return done(err);
