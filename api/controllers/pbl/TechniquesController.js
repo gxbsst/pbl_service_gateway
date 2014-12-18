@@ -5,38 +5,32 @@ module.exports = {
   resource: 'Pbl.Technique',
 
   index: function (req, res) {
-    if (req.query.include === 'techniques') {
-      return res.fill(Pbl.Technique.$$find({where: req.query}).then(function (result) {
-        var def = Promise.defer();
-        try {
+    return res.fill(Pbl.Technique.$$find({where: req.query}).then(function (result) {
+      var def = Promise.defer();
+
+      if (req.query.include === 'techniques') {
+        if (!_.isEmpty(result.data)) {
           var techniqueIds = _.pluck(result.data, 'technique_id');
 
           Skill.Technique.$$find({where: {_id: techniqueIds.join()}}).then(function (includedResult) {
-            try {
+            if (!_.isEmpty(includedResult.data)) {
               _.each(result.data, function (item) {
-                _.each(includedResult.data, function (technique) {
-                  if (item.technique_id === technique.id) {
-                    delete item.technique_id;
-                    item.technique = technique;
-                  }
-                })
+                var technique = _.find(includedResult.data, {id: item.technique_id});
+                if (technique) {
+                  delete item.technique_id;
+                  item.technique = technique;
+                }
               });
-              def.callback(null, result);
-            } catch (err) {
-              def.callback(err);
             }
-          }).catch(function () {
+          }).finally(function () {
             def.callback(null, result);
           });
-
-          return def.promise;
-        } catch (error) {
-          def.callback(error);
         }
-      }));
-    } else {
-      res.fill(Pbl.Technique.$$find({where: req.query}));
-    }
-  }
+      } else {
+        def.callback(null, result);
+      }
 
+      return def.promise;
+    }));
+  }
 };
