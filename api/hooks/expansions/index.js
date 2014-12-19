@@ -124,7 +124,13 @@ module.exports = function (sails) {
 
                 _.each(include.index, function (info) {
                   if (_.isString(req.query.include) && _.contains(req.query.include.split(','), info.param)) {
-                    var viaIds = _.filter(_.pluck(result.data, info.via));
+                    var viaIds = [];
+                    _.each(result.data, function (item) {
+                      var vid = item[info.via];
+                      if (vid && !_.contains(viaIds, vid)) {
+                        viaIds.push(vid);
+                      }
+                    });
                     if (!_.isEmpty(viaIds)) {
                       props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join()}});
                     }
