@@ -157,4 +157,102 @@ describe('pbl/StandardItemsController', function () {
 
   });
 
+  describe('#index() include standard items (only one item) ', function () {
+
+    before(function (done) {
+      nock("http://localhost:3000")
+        .get('/pbl/standard_items?include=standard_items')
+        .reply(200, {
+          data: [
+            {
+              id: "2cd2f45a-8a1e-4898-8340-222e80e94e57",
+              project_id: "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              standard_item_id: "5bb9bdd7-c53a-48e3-92a7-22791d611199",
+              created_at: "2014-12-18T19:28:45.270+08:00",
+              updated_at: "2014-12-18T19:28:45.270+08:00"
+            }
+          ]
+        });
+
+      nock("http://localhost:3000")
+        .get('/curriculum/standard_items/5bb9bdd7-c53a-48e3-92a7-22791d611199')
+        .reply(200, {
+          data: [
+            {
+              "id": "5bb9bdd7-c53a-48e3-92a7-22791d611199",
+              "content": "课程标准条目1.1",
+              "position": null,
+              "standard_id": "0a2b1195-d5e7-4a96-81a0-cf948a894bb5",
+              "created_at": "2014-12-15T14:40:32.366+08:00",
+              "updated_at": "2014-12-15T14:40:32.366+08:00"
+            }
+          ]
+        });
+
+      done();
+    });
+
+    it('should respond items include standard items', function (done) {
+      request(sails.hooks.http.app)
+        .get('/pbl/standard_items?include=standard_items')
+        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+        .expect('Content-Type', /json/)
+        .expect(200, {
+          data: [
+            {
+              id: "2cd2f45a-8a1e-4898-8340-222e80e94e57",
+              project_id: "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              standard_item: {
+                "id": "5bb9bdd7-c53a-48e3-92a7-22791d611199",
+                "content": "课程标准条目1.1",
+                "position": null,
+                "standard_id": "0a2b1195-d5e7-4a96-81a0-cf948a894bb5",
+                "created_at": "2014-12-15T14:40:32.366+08:00",
+                "updated_at": "2014-12-15T14:40:32.366+08:00"
+              },
+              created_at: "2014-12-18T19:28:45.270+08:00",
+              updated_at: "2014-12-18T19:28:45.270+08:00"
+            }
+          ]
+        }, done);
+    });
+
+    after(function (done) {
+      nock.cleanAll();
+      done();
+    });
+
+  });
+
+  describe('#index() include standard items (only one item) ', function () {
+
+    before(function (done) {
+      nock("http://localhost:3000")
+        .get('/pbl/standard_items?include=standard_items')
+        .reply(200, {
+          data: [
+          ]
+        });
+
+      done();
+    });
+
+    it('should respond items include standard items', function (done) {
+      request(sails.hooks.http.app)
+        .get('/pbl/standard_items?include=standard_items')
+        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+        .expect('Content-Type', /json/)
+        .expect(200, {
+          data: [
+          ]
+        }, done);
+    });
+
+    after(function (done) {
+      nock.cleanAll();
+      done();
+    });
+
+  });
+
 });

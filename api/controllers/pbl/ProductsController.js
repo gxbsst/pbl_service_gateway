@@ -1,6 +1,15 @@
-
 module.exports = {
 
-  resource: 'Pbl.Product'
+  resource: 'Pbl.Product',
+
+  include: {
+    index: [
+      {
+        param: 'product_forms',
+        model: 'ProductForm',
+        via: 'product_form_id'
+      }
+    ]
+  }
 
 };

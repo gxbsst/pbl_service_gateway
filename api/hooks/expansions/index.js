@@ -111,10 +111,50 @@ module.exports = function (sails) {
         _.extend(model, modelExpansion);
       });
 
-      var extendController = function (resource) {
+      var extendController = function (resource, include) {
         return {
           index: function (req, res) {
-            sails.models[resource.toLowerCase()].proxyIndex(req, res);
+            // sails.models[resource.toLowerCase()].proxyIndex(req, res);
+
+            return res.fill(sails.models[resource.toLowerCase()].$$find({where: req.query}).then(function (result) {
+              var def = Promise.defer();
+
+              if (include && !_.isEmpty(result.data)) {
+                var props = {};
+
+                _.each(include.index, function (info) {
+                  if (_.isString(req.query.include) && _.contains(req.query.include.split(','), info.param)) {
+                    var viaIds = _.filter(_.pluck(result.data, info.via));
+                    if (!_.isEmpty(viaIds)) {
+                      props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join()}});
+                    }
+                  }
+                });
+
+                Promise.props(props).then(function (includedResult) {
+                  _.each(result.data, function (item) {
+                    _.each(include.index, function (info) {
+                      if (item[info.via] && includedResult[info.via] && includedResult[info.via].data) {
+                        var el = _.find(includedResult[info.via].data, {id: item[info.via]});
+                        if (el) {
+                          delete item[info.via];
+                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                          item[embed] = el;
+                        }
+                      }
+                    });
+                  });
+                }).finally(function () {
+                  def.callback(null, result);
+                });
+
+              } else {
+                def.callback(null, result);
+              }
+
+              return def.promise;
+
+            }));
           },
 
           show: function (req, res) {
@@ -138,7 +178,7 @@ module.exports = function (sails) {
       _.each(sails.controllers, function eachController(controller) {
         if (controller.resource) {
           // 扩展 controller
-          _.defaults(controller, extendController(controller.resource));
+          _.defaults(controller, extendController(controller.resource, controller.include));
         }
       });
     }
