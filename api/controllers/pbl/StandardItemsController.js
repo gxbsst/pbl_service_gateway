@@ -25,6 +25,8 @@ module.exports = {
           }).finally(function () {
             def.callback(null, result);
           });
+        } else {
+          def.callback(null, result);
         }
       } else {
         def.callback(null, result);
