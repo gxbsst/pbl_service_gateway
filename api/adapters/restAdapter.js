@@ -102,7 +102,7 @@ module.exports = (function () {
     if (config.pluralize) {
       resource = _i.pluralize(config.resource);
     }
-    return config.pathname + '/' + ns + resource + (config.action ? '/' + config.action : '');
+    return config.pathname + '/' + ns + resource;
   }
 
   /**
@@ -218,6 +218,12 @@ module.exports = (function () {
       } else {
         delete options.where;
       }
+    }
+
+    // action path
+    if (options && options.action) {
+      pathname += '/actions/' + options.action;
+      delete options.action;
     }
 
     if (!opt && values) {
@@ -403,6 +409,14 @@ module.exports = (function () {
 
     $destroy: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'destroy', cb, options);
+    },
+
+    $action: function (connection, collectionName, options, values, cb) {
+      var method = options.method;
+      if (method) {
+        delete options.method;
+      }
+      makeRequest(connection, collectionName, method || 'update', cb, options, values);
     },
 
     drop: function (connection, collectionName, relations, cb) {

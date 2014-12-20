@@ -62,6 +62,12 @@ module.exports = function (sails) {
           return def.promise;
         },
 
+        $$action: function (options, values) {
+          var def = Promise.defer();
+          this.$action(options, values, def.callback);
+          return def.promise;
+        },
+
         proxyIndex: function (req, res) {
           return res.fill(this.$$find({where: req.query}));
         },
