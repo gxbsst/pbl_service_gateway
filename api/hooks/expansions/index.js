@@ -148,7 +148,7 @@ module.exports = function (sails) {
                     _.each(include.index, function (info) {
                       if (item[info.via] && includedResult[info.via] && includedResult[info.via].data) {
                         var el = _.find(includedResult[info.via].data, {id: item[info.via]});
-                        if (el) {
+                        if (el && el.id) {
                           delete item[info.via];
                           var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
                           item[embed] = el;
