@@ -241,6 +241,95 @@ describe('pbl/RulesController', function () {
 
   });
 
+  describe('#index() include techniques (one item)', function () {
+
+    before(function (done) {
+      nock("http://localhost:3000")
+        .get('/pbl/rules?include=techniques')
+        .reply(200, {
+          data: [
+            {
+              "id": "6a4f9270-3a88-4619-b307-4b1f34d81240",
+              "technique_id": "225b14f8-578f-4dbe-86a6-5dc5e56aba5b",
+              "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              "gauge_id": null,
+              "weight": "25%",
+              "standard": "xxx",
+              "level_1": "111",
+              "level_2": "222",
+              "level_3": null,
+              "level_4": null,
+              "level_5": null,
+              "level_6": null,
+              "level_7": null,
+              "created_at": "2014-12-19T04:21:54.930+08:00",
+              "updated_at": "2014-12-19T04:22:04.516+08:00"
+            }
+          ]
+        });
+
+      nock("http://localhost:3000")
+        .get('/skill/techniques/225b14f8-578f-4dbe-86a6-5dc5e56aba5b')
+        .reply(200, {
+          data: [
+            {
+              "id": "225b14f8-578f-4dbe-86a6-5dc5e56aba5b",
+              "title": "技能2.2.3",
+              "position": null,
+              "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
+              "created_at": "2014-12-15T14:48:57.298+08:00",
+              "updated_at": "2014-12-15T14:48:57.298+08:00",
+              "description": null
+            }
+          ]
+        });
+
+      done();
+    });
+
+    it('should respond items include techniques', function (done) {
+      request(sails.hooks.http.app)
+        .get('/pbl/rules?include=techniques')
+        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+        .expect('Content-Type', /json/)
+        .expect(200, {
+          data: [
+            {
+              "id": "6a4f9270-3a88-4619-b307-4b1f34d81240",
+              "technique": {
+                "id": "225b14f8-578f-4dbe-86a6-5dc5e56aba5b",
+                "title": "技能2.2.3",
+                "position": null,
+                "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
+                "created_at": "2014-12-15T14:48:57.298+08:00",
+                "updated_at": "2014-12-15T14:48:57.298+08:00",
+                "description": null
+              },
+              "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              "gauge_id": null,
+              "weight": "25%",
+              "standard": "xxx",
+              "level_1": "111",
+              "level_2": "222",
+              "level_3": null,
+              "level_4": null,
+              "level_5": null,
+              "level_6": null,
+              "level_7": null,
+              "created_at": "2014-12-19T04:21:54.930+08:00",
+              "updated_at": "2014-12-19T04:22:04.516+08:00"
+            }
+          ]
+        }, done);
+    });
+
+    after(function (done) {
+      nock.cleanAll();
+      done();
+    });
+
+  });
+
   describe('#index() include gauges', function () {
 
     before(function (done) {

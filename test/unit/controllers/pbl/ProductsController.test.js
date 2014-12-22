@@ -188,5 +188,62 @@ describe('pbl/ProductsController', function () {
     });
 
   });
+
+  describe('#index() include product forms (null form)', function () {
+
+    before(function (done) {
+      nock("http://localhost:3000")
+        .get('/pbl/products?project_id=62b45c4f-d3ed-4b12-9262-83043daea9b4&include=product_forms')
+        .reply(200, {
+          data: [
+            {
+              "id": "3cf7e45a-42f9-4592-9562-ad8450c7daed",
+              "description": "测试产品",
+              "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              "product_form_id": "0d731510-b64f-4b9f-8b29-8435ac0d9637"
+            }
+          ]
+        });
+
+      nock("http://localhost:3000")
+        .get('/product_forms/0d731510-b64f-4b9f-8b29-8435ac0d9637')
+        .reply(200, {
+          data: [
+            {
+              "id": null,
+              "name": null,
+              "description": null,
+              "created_at": null,
+              "updated_at": null
+            }
+          ]
+        });
+
+      done();
+    });
+
+    it('should respond data', function (done) {
+      request(sails.hooks.http.app)
+        .get('/pbl/products?project_id=62b45c4f-d3ed-4b12-9262-83043daea9b4&include=product_forms')
+        .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
+        .expect('Content-Type', /json/)
+        .expect(200, {
+          data: [
+            {
+              "id": "3cf7e45a-42f9-4592-9562-ad8450c7daed",
+              "description": "测试产品",
+              "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
+              "product_form_id": "0d731510-b64f-4b9f-8b29-8435ac0d9637"
+            }
+          ]
+        }, done);
+    });
+
+    after(function (done) {
+      nock.cleanAll();
+      done();
+    });
+
+  });
 })
 ;

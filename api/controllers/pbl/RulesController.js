@@ -24,8 +24,10 @@ module.exports = {
   },
 
   destroy: function (req, res) {
-    return res.fill(Pbl.Rule.$$destroy({where: {_id: req.param('id')}}).then(function (rule) {
-      return Gauge.$$action({method: 'update', action: 'decrease', where: {_id: rule.gauge_id}});
+    return res.fill(Pbl.Rule.$$destroy({where: {_id: req.param('id')}}).then(function (result) {
+      return Pbl.Rule.$$findOne({where: {_id: result.id}}).then(function (rule) {
+        return Gauge.$$action({method: 'update', action: 'decrease', where: {_id: rule.gauge_id}});
+      });
     }));
   }
 };
