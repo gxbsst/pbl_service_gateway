@@ -1,3 +1,5 @@
+var Promise = require("bluebird");
+
 module.exports = {
 
   resource: 'Pbl.Rule',
@@ -19,15 +21,23 @@ module.exports = {
 
   create: function (req, res) {
     return res.fill(Pbl.Rule.$$create(req.body.rule).then(function (rule) {
-      return Gauge.$$action({method: 'update', action: 'increase', where: {_id: rule.gauge_id}});
+      var def = Promise.defer();
+      if (rule.gauge_id) {
+        Gauge.$$action({method: 'update', action: 'increase', where: {_id: rule.gauge_id}}).then();
+      }
+      def.callback(null, rule);
+      return def.promise;
     }));
   },
 
   destroy: function (req, res) {
     return res.fill(Pbl.Rule.$$destroy({where: {_id: req.param('id')}}).then(function (result) {
-      return Pbl.Rule.$$findOne({where: {_id: result.id}}).then(function (rule) {
-        return Gauge.$$action({method: 'update', action: 'decrease', where: {_id: rule.gauge_id}});
-      });
+      var def = Promise.defer();
+      if (result.gauge_id) {
+        Gauge.$$action({method: 'update', action: 'decrease', where: {_id: result.gauge_id}}).then();
+      }
+      def.callback(null, result);
+      return def.promise;
     }));
   }
 };
