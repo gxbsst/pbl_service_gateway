@@ -7,6 +7,9 @@ describe('group/MembersController', function () {
 
     before(function (done) {
       nock("http://localhost:3000")
+        //.defaultReplyHeaders({
+        //  'Content-Type': 'application/json'
+        //})
         .post('/groups/members/actions/join')
         .reply(200);
       done();
@@ -19,7 +22,7 @@ describe('group/MembersController', function () {
           member: {user_id: 'user_id', group_id: 'group_id', role: ['creator']}
         })
         .set('Accept', 'application/vnd.ibridgebrige.com; version=1')
-        .expect('Content-Type', /json/)
+        //.expect('Content-Type', /json/)
         .expect(200, done);
     });
 

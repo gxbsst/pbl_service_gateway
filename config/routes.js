@@ -24,6 +24,6 @@ module.exports.routes = {
 
   '/': 'HomeController.index',
 
-  'POST /groups/members/actions/join': 'MembersController.join',
-  'DELETE /groups/members/actions/leave': 'MembersController.leave'
+  'POST /groups/members/actions/join': 'group/MembersController.join',
+  'DELETE /groups/members/actions/leave': 'group/MembersController.leave'
 };
