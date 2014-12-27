@@ -226,6 +226,11 @@ module.exports = (function () {
       delete options.action;
     }
 
+    if (options && options.handler) {
+      pathname += '/' + options.handler;
+      delete options.handler;
+    }
+
     if (!opt && values) {
       opt = values;
 

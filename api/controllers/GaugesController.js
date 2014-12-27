@@ -10,5 +10,9 @@ module.exports = {
         via: 'technique_id'
       }
     ]
+  },
+
+  recommends: function (req, res) {
+    return res.fill(Gauge.$$action({method: 'find', handler: 'recommends', where: req.query}));
   }
 };
