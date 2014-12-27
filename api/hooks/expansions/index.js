@@ -138,7 +138,7 @@ module.exports = function (sails) {
                       }
                     });
                     if (!_.isEmpty(viaIds)) {
-                      props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join()}});
+                      props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join(), include: 'parents'}});
                     }
                   }
                 });

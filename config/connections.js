@@ -69,7 +69,7 @@ module.exports.connections = {
     methods: {
       create: 'post',
       find: 'get',
-      update: 'put',
+      update: 'patch',
       destroy: 'del'
     }
   },
