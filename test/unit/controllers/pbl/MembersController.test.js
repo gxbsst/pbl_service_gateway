@@ -3,7 +3,7 @@ var request = require('supertest')
 
 describe('group/MembersController', function () {
 
-  describe('#join()', function () {
+  /*describe('#join()', function () {
 
     before(function (done) {
       nock("http://localhost:3000")
@@ -31,6 +31,6 @@ describe('group/MembersController', function () {
       done();
     });
 
-  });
+  });*/
 
 });

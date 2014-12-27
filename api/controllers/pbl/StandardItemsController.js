@@ -9,7 +9,8 @@ module.exports = {
       {
         param: 'standard_items',
         model: 'Curriculum.StandardItem',
-        via: 'standard_item_id'
+        via: 'standard_item_id',
+        include: "parents"
       }
     ]
   }

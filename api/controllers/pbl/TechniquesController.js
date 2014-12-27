@@ -9,7 +9,8 @@ module.exports = {
       {
         param: 'techniques',
         model: 'Skill.Technique',
-        via: 'technique_id'
+        via: 'technique_id',
+        include: "parents"
       }
     ]
   }

@@ -138,7 +138,11 @@ module.exports = function (sails) {
                       }
                     });
                     if (!_.isEmpty(viaIds)) {
-                      props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join(), include: 'parents'}});
+                      if (info.include) {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join(), include: info.include}});
+                      } else {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join()}});
+                      }
                     }
                   }
                 });

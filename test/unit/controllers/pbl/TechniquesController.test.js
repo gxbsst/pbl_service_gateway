@@ -86,26 +86,52 @@ describe('pbl/TechniquesController', function () {
         });
 
       nock("http://localhost:3000")
-        .get('/skill/techniques/1c9d4d70-358f-4887-bd00-1175abb5e704,c117eae3-adcb-4265-a988-0aff9b73760d')
+        .get('/skill/techniques/1c9d4d70-358f-4887-bd00-1175abb5e704,c117eae3-adcb-4265-a988-0aff9b73760d?include=parents')
         .reply(200, {
           data: [
             {
               "id": "c117eae3-adcb-4265-a988-0aff9b73760d",
-              "title": "技能2.2.2",
-              "position": null,
               "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-              "created_at": "2014-12-15T14:48:57.258+08:00",
-              "updated_at": "2014-12-15T14:48:57.258+08:00",
-              "description": null
+              "title": "技能2.2.2",
+              "parents": {
+                "sub_category": {
+                  "id": "03939054-63ca-4b38-9924-54421c709246",
+                  "name": "技能分类2.2",
+                  "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                  "position": null,
+                  "created_at": "2014-12-15T14:48:57.228+08:00",
+                  "updated_at": "2014-12-15T14:48:57.228+08:00"
+                },
+                "category": {
+                  "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                  "name": "技能种类2",
+                  "position": null,
+                  "created_at": "2014-12-15T14:48:57.143+08:00",
+                  "updated_at": "2014-12-15T14:48:57.143+08:00"
+                }
+              }
             },
             {
               "id": "1c9d4d70-358f-4887-bd00-1175abb5e704",
-              "title": "技能2.2.1",
-              "position": null,
               "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-              "created_at": "2014-12-15T14:48:57.247+08:00",
-              "updated_at": "2014-12-15T14:48:57.247+08:00",
-              "description": null
+              "title": "技能2.2.1",
+              "parents": {
+                "sub_category": {
+                  "id": "03939054-63ca-4b38-9924-54421c709246",
+                  "name": "技能分类2.2",
+                  "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                  "position": null,
+                  "created_at": "2014-12-15T14:48:57.228+08:00",
+                  "updated_at": "2014-12-15T14:48:57.228+08:00"
+                },
+                "category": {
+                  "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                  "name": "技能种类2",
+                  "position": null,
+                  "created_at": "2014-12-15T14:48:57.143+08:00",
+                  "updated_at": "2014-12-15T14:48:57.143+08:00"
+                }
+              }
             }
           ]
         });
@@ -125,12 +151,25 @@ describe('pbl/TechniquesController', function () {
               "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
               "technique": {
                 "id": "1c9d4d70-358f-4887-bd00-1175abb5e704",
-                "title": "技能2.2.1",
-                "position": null,
                 "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-                "created_at": "2014-12-15T14:48:57.247+08:00",
-                "updated_at": "2014-12-15T14:48:57.247+08:00",
-                "description": null
+                "title": "技能2.2.1",
+                "parents": {
+                  "sub_category": {
+                    "id": "03939054-63ca-4b38-9924-54421c709246",
+                    "name": "技能分类2.2",
+                    "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.228+08:00",
+                    "updated_at": "2014-12-15T14:48:57.228+08:00"
+                  },
+                  "category": {
+                    "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "name": "技能种类2",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.143+08:00",
+                    "updated_at": "2014-12-15T14:48:57.143+08:00"
+                  }
+                }
               },
               "created_at": "2014-12-18T22:48:19.854+08:00",
               "updated_at": "2014-12-18T22:48:19.854+08:00"
@@ -140,12 +179,25 @@ describe('pbl/TechniquesController', function () {
               "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
               "technique": {
                 "id": "c117eae3-adcb-4265-a988-0aff9b73760d",
-                "title": "技能2.2.2",
-                "position": null,
                 "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-                "created_at": "2014-12-15T14:48:57.258+08:00",
-                "updated_at": "2014-12-15T14:48:57.258+08:00",
-                "description": null
+                "title": "技能2.2.2",
+                "parents": {
+                  "sub_category": {
+                    "id": "03939054-63ca-4b38-9924-54421c709246",
+                    "name": "技能分类2.2",
+                    "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.228+08:00",
+                    "updated_at": "2014-12-15T14:48:57.228+08:00"
+                  },
+                  "category": {
+                    "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "name": "技能种类2",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.143+08:00",
+                    "updated_at": "2014-12-15T14:48:57.143+08:00"
+                  }
+                }
               },
               "created_at": "2014-12-18T22:48:18.770+08:00",
               "updated_at": "2014-12-18T22:48:18.770+08:00"
@@ -179,15 +231,28 @@ describe('pbl/TechniquesController', function () {
         });
 
       nock("http://localhost:3000")
-        .get('/skill/techniques/1c9d4d70-358f-4887-bd00-1175abb5e704')
+        .get('/skill/techniques/1c9d4d70-358f-4887-bd00-1175abb5e704?include=parents')
         .reply(200, {
           "id": "1c9d4d70-358f-4887-bd00-1175abb5e704",
-          "title": "技能2.2.1",
-          "position": null,
           "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-          "created_at": "2014-12-15T14:48:57.247+08:00",
-          "updated_at": "2014-12-15T14:48:57.247+08:00",
-          "description": null
+          "title": "技能2.2.1",
+          "parents": {
+            "sub_category": {
+              "id": "03939054-63ca-4b38-9924-54421c709246",
+              "name": "技能分类2.2",
+              "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+              "position": null,
+              "created_at": "2014-12-15T14:48:57.228+08:00",
+              "updated_at": "2014-12-15T14:48:57.228+08:00"
+            },
+            "category": {
+              "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+              "name": "技能种类2",
+              "position": null,
+              "created_at": "2014-12-15T14:48:57.143+08:00",
+              "updated_at": "2014-12-15T14:48:57.143+08:00"
+            }
+          }
         }
       );
 
@@ -206,12 +271,25 @@ describe('pbl/TechniquesController', function () {
               "project_id": "62b45c4f-d3ed-4b12-9262-83043daea9b4",
               "technique": {
                 "id": "1c9d4d70-358f-4887-bd00-1175abb5e704",
-                "title": "技能2.2.1",
-                "position": null,
                 "sub_category_id": "03939054-63ca-4b38-9924-54421c709246",
-                "created_at": "2014-12-15T14:48:57.247+08:00",
-                "updated_at": "2014-12-15T14:48:57.247+08:00",
-                "description": null
+                "title": "技能2.2.1",
+                "parents": {
+                  "sub_category": {
+                    "id": "03939054-63ca-4b38-9924-54421c709246",
+                    "name": "技能分类2.2",
+                    "category_id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.228+08:00",
+                    "updated_at": "2014-12-15T14:48:57.228+08:00"
+                  },
+                  "category": {
+                    "id": "a71a05aa-8bbe-4f04-b9d2-419304c339ed",
+                    "name": "技能种类2",
+                    "position": null,
+                    "created_at": "2014-12-15T14:48:57.143+08:00",
+                    "updated_at": "2014-12-15T14:48:57.143+08:00"
+                  }
+                }
               },
               "created_at": "2014-12-18T22:48:19.854+08:00",
               "updated_at": "2014-12-18T22:48:19.854+08:00"
