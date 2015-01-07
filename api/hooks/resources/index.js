@@ -135,7 +135,7 @@ module.exports = function (sails) {
 
           // Bind a route based on the action name, if `actions` shadows enabled
           if (config.actions && !actionId.match(/^namespace$|^index$|^create$|^show$|^update$|^fresh$|^edit$|^destroy$/i)) {
-            var actionRoute = 'POST ' + baseRoute + '/:id/actions/' + actionId.toLowerCase();
+            var actionRoute = 'PATCH ' + baseRoute + '/:id/actions/' + actionId.toLowerCase();
             sails.log.silly('Binding action (' + actionId.toLowerCase() + ') resource/shadow route for controller:', controllerId);
             sails.router.bind(actionRoute, controller[actionId.toLowerCase()], null, opts);
           }
