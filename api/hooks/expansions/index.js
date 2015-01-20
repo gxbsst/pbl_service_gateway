@@ -243,7 +243,7 @@ module.exports = function (sails) {
             //sails.models[resource.toLowerCase()].proxyCreate(req, res);
             var _include = req.query.include;
             delete req.query.include;
-            return res.fill(sails.models[resource.toLowerCase()].$$create(req.body[this.getModelResource()]).then(function (result) {
+            return res.fill(sails.models[resource.toLowerCase()].$$create(req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
               var def = Promise.defer();
               if (include && include.show && !_.isEmpty(result)) {
 
@@ -298,7 +298,7 @@ module.exports = function (sails) {
             //sails.models[resource.toLowerCase()].proxyUpdate(req, res);
             var _include = req.query.include;
             delete req.query.include;
-            return res.fill(sails.models[resource.toLowerCase()].$$update({where: {_id: req.param('id')}}, req.body[this.getModelResource()]).then(function (result) {
+            return res.fill(sails.models[resource.toLowerCase()].$$update({where: {_id: req.param('id')}}, req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
               var def = Promise.defer();
               if (include && include.show && !_.isEmpty(result)) {
 
