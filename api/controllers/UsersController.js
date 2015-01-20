@@ -13,6 +13,16 @@ module.exports = {
 
   authenticate: function (req, res) {
     return res.fill(Authentication.ask(req.param('id'), req.body.password));
+  },
+
+  include: {
+    index: [
+      {
+        param: 'schools',
+        model: 'School',
+        via: 'school_id'
+      }
+    ]
   }
 
 };
