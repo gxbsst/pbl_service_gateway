@@ -196,14 +196,14 @@ module.exports = function (sails) {
                     var viaId = item[info.via];
                     if (!viaId) {
                       if (info.include) {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$findOne({
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
                           where: {
                             _id: viaId,
                             include: info.include
                           }
                         });
                       } else {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$findOne({where: {_id: viaId}});
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
                       }
                     }
                   }
