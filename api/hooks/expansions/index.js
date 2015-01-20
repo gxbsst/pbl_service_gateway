@@ -211,8 +211,6 @@ module.exports = function (sails) {
                   }
                 });
 
-                console.log(props);
-
                 Promise.props(props).then(function (includedResult) {
                   _.each(include.show, function (info) {
                     if (result[info.via] && includedResult[info.via]) {
