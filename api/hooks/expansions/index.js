@@ -125,7 +125,7 @@ module.exports = function (sails) {
             return res.fill(sails.models[resource.toLowerCase()].$$find({where: req.query}).then(function (result) {
               var def = Promise.defer();
 
-              if (include && !_.isEmpty(result.data)) {
+              if (include && include.index && !_.isEmpty(result.data)) {
                 var props = {};
 
                 _.each(include.index, function (info) {
@@ -139,7 +139,12 @@ module.exports = function (sails) {
                     });
                     if (!_.isEmpty(viaIds)) {
                       if (info.include) {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join(), include: info.include}});
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
+                          where: {
+                            _id: viaIds.join(),
+                            include: info.include
+                          }
+                        });
                       } else {
                         props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaIds.join()}});
                       }
@@ -180,7 +185,57 @@ module.exports = function (sails) {
           },
 
           show: function (req, res) {
-            sails.models[resource.toLowerCase()].proxyShow(req, res);
+            return res.fill(sails.models[resource.toLowerCase()].$$findOne({where: _.merge({_id: req.param('id')}, req.query)}).then(function (result) {
+              var item = result.data,
+                def = Promise.defer();
+              if (include && include.show && !_.isEmpty(result.data)) {
+
+                var props = {};
+                _.each(include.show, function (info) {
+                  if (_.isString(req.query.include) && _.contains(req.query.include.split(','), info.param)) {
+                    var viaId = item[info.via];
+                    if (!viaId) {
+                      if (info.include) {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$findOne({
+                          where: {
+                            _id: viaId,
+                            include: info.include
+                          }
+                        });
+                      } else {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$findOne({where: {_id: viaId}});
+                      }
+                    }
+                  }
+                });
+
+                Promise.props(props).then(function (includedResult) {
+                  _.each(include.show, function (info) {
+                    if (item[info.via] && includedResult[info.via]) {
+                      if (includedResult[info.via].data) {
+                        var el = _.find(includedResult[info.via].data, {id: item[info.via]});
+                        if (el && el.id) {
+                          delete item[info.via];
+                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                          item[embed] = el;
+                        }
+                      } else if (_.isObject(includedResult[info.via])) {
+                        delete item[info.via];
+                        var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                        item[embed] = includedResult[info.via];
+                      }
+                    }
+                  });
+                }).finally(function () {
+                  def.callback(null, result);
+                });
+
+              } else {
+                def.callback(null, result);
+              }
+              return def.promise;
+            }));
+            //sails.models[resource.toLowerCase()].proxyShow(req, res);
           },
 
           create: function (req, res) {
