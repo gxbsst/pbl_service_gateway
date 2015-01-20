@@ -186,14 +186,13 @@ module.exports = function (sails) {
 
           show: function (req, res) {
             return res.fill(sails.models[resource.toLowerCase()].$$findOne({where: _.merge({_id: req.param('id')}, req.query)}).then(function (result) {
-              var item = result.data,
-                def = Promise.defer();
-              if (include && include.show && !_.isEmpty(result.data)) {
+              var def = Promise.defer();
+              if (include && include.show && !_.isEmpty(result)) {
 
                 var props = {};
                 _.each(include.show, function (info) {
                   if (_.isString(req.query.include) && _.contains(req.query.include.split(','), info.param)) {
-                    var viaId = item[info.via];
+                    var viaId = result[info.via];
                     if (!viaId) {
                       if (info.include) {
                         props[info.via] = sails.models[info.model.toLowerCase()].$$find({
@@ -211,18 +210,18 @@ module.exports = function (sails) {
 
                 Promise.props(props).then(function (includedResult) {
                   _.each(include.show, function (info) {
-                    if (item[info.via] && includedResult[info.via]) {
+                    if (result[info.via] && includedResult[info.via]) {
                       if (includedResult[info.via].data) {
-                        var el = _.find(includedResult[info.via].data, {id: item[info.via]});
+                        var el = _.find(includedResult[info.via].data, {id: result[info.via]});
                         if (el && el.id) {
-                          delete item[info.via];
+                          delete result[info.via];
                           var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                          item[embed] = el;
+                          result[embed] = el;
                         }
                       } else if (_.isObject(includedResult[info.via])) {
-                        delete item[info.via];
+                        delete result[info.via];
                         var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                        item[embed] = includedResult[info.via];
+                        result[embed] = includedResult[info.via];
                       }
                     }
                   });
