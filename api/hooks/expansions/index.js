@@ -240,11 +240,113 @@ module.exports = function (sails) {
           },
 
           create: function (req, res) {
-            sails.models[resource.toLowerCase()].proxyCreate(req, res);
+            //sails.models[resource.toLowerCase()].proxyCreate(req, res);
+            var _include = req.query.include;
+            delete req.query.include;
+            return res.fill(sails.models[resource.toLowerCase()].$$create(req.body[this.getModelResource()]).then(function (result) {
+              var def = Promise.defer();
+              if (include && include.show && !_.isEmpty(result)) {
+
+                var props = {};
+                _.each(include.show, function (info) {
+                  if (_.isString(_include) && _.contains(_include.split(','), info.param)) {
+                    var viaId = result[info.via];
+                    if (viaId) {
+                      if (info.include) {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
+                          where: {
+                            _id: viaId,
+                            include: info.include
+                          }
+                        });
+                      } else {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
+                      }
+                    }
+                  }
+                });
+
+                Promise.props(props).then(function (includedResult) {
+                  _.each(include.show, function (info) {
+                    if (result[info.via] && includedResult[info.via]) {
+                      if (includedResult[info.via].data) {
+                        var el = _.find(includedResult[info.via].data, {id: result[info.via]});
+                        if (el && el.id) {
+                          delete result[info.via];
+                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                          result[embed] = el;
+                        }
+                      } else if (_.isObject(includedResult[info.via])) {
+                        delete result[info.via];
+                        var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                        result[embed] = includedResult[info.via];
+                      }
+                    }
+                  });
+                }).finally(function () {
+                  def.callback(null, result);
+                });
+
+              } else {
+                def.callback(null, result);
+              }
+              return def.promise;
+            }));
           },
 
           update: function (req, res) {
-            sails.models[resource.toLowerCase()].proxyUpdate(req, res);
+            //sails.models[resource.toLowerCase()].proxyUpdate(req, res);
+            var _include = req.query.include;
+            delete req.query.include;
+            return res.fill(sails.models[resource.toLowerCase()].$$update({where: {_id: req.param('id')}}, req.body[this.getModelResource()]).then(function (result) {
+              var def = Promise.defer();
+              if (include && include.show && !_.isEmpty(result)) {
+
+                var props = {};
+                _.each(include.show, function (info) {
+                  if (_.isString(_include) && _.contains(_include.split(','), info.param)) {
+                    var viaId = result[info.via];
+                    if (viaId) {
+                      if (info.include) {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
+                          where: {
+                            _id: viaId,
+                            include: info.include
+                          }
+                        });
+                      } else {
+                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
+                      }
+                    }
+                  }
+                });
+
+                Promise.props(props).then(function (includedResult) {
+                  _.each(include.show, function (info) {
+                    if (result[info.via] && includedResult[info.via]) {
+                      if (includedResult[info.via].data) {
+                        var el = _.find(includedResult[info.via].data, {id: result[info.via]});
+                        if (el && el.id) {
+                          delete result[info.via];
+                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                          result[embed] = el;
+                        }
+                      } else if (_.isObject(includedResult[info.via])) {
+                        delete result[info.via];
+                        var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                        result[embed] = includedResult[info.via];
+                      }
+                    }
+                  });
+                }).finally(function () {
+                  def.callback(null, result);
+                });
+
+              } else {
+                def.callback(null, result);
+              }
+              return def.promise;
+            }));
           },
 
           destroy: function (req, res) {
