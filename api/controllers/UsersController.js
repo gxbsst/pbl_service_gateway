@@ -22,6 +22,13 @@ module.exports = {
         model: 'School',
         via: 'school_id'
       }
+    ],
+    show: [
+      {
+        param: 'schools',
+        model: 'School',
+        via: 'school_id'
+      }
     ]
   }
 
