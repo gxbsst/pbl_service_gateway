@@ -1,5 +1,13 @@
 module.exports = {
 
-  resource: 'FriendShip'
+  resource: 'FriendShip',
+
+  include: [
+    {
+      param: 'clazzs',
+      model: 'Clazz',
+      via: 'clazz_id'
+    }
+  ]
 
 };
