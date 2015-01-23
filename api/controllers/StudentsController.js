@@ -7,7 +7,15 @@
 
 module.exports = {
 
-  resource: 'Student'
+  resource: 'Student',
+
+  index: [
+    {
+      param: 'clazzs',
+      model: 'Clazz',
+      via: 'clazz_id'
+    }
+  ]
 
 };
 
