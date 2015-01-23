@@ -9,13 +9,15 @@ module.exports = {
 
   resource: 'Student',
 
-  index: [
-    {
-      param: 'clazzs',
-      model: 'Clazz',
-      via: 'clazz_id'
-    }
-  ]
+  include: {
+    index: [
+      {
+        param: 'clazzs',
+        model: 'Clazz',
+        via: 'clazz_id'
+      }
+    ]
+  }
 
 };
 
