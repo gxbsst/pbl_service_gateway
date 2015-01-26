@@ -7,7 +7,8 @@ module.exports = {
       {
         param: 'standards',
         model: 'Curriculum.Standard',
-        via: 'standard_id'
+        via: 'standard_id',
+        include: 'phases'
       }
     ]
   }
