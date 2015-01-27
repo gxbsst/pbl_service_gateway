@@ -7,7 +7,17 @@
 
 module.exports = {
 
-  resource: 'Skill.SubCategory'
+  resource: 'Skill.SubCategory',
+
+  include: {
+    index: [
+      {
+        param: 'categories',
+        model: 'Skill.Category',
+        via: 'category_id'
+      }
+    ]
+  }
 
 };
 

@@ -7,7 +7,17 @@
 
 module.exports = {
 
-  resource: 'Student'
+  resource: 'Student',
+
+  include: {
+    index: [
+      {
+        param: 'clazzs',
+        model: 'Clazz',
+        via: 'clazz_id'
+      }
+    ]
+  }
 
 };
 
