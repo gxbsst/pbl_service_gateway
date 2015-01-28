@@ -214,7 +214,7 @@ module.exports = function (sails) {
             //sails.models[resource.toLowerCase()].proxyShow(req, res);
             var includeParams = req.query.include;
             if(includeParams){
-              var allows = ['member_ships', 'students'];
+              var allows = ['member_ships'];
               includeParams = _.intersection(includeParams.split(','), allows).join();
               if(includeParams){
                 req.query.include = includeParams;
