@@ -6,7 +6,7 @@ module.exports = {
     {
       model: 'Invitation',
       type: 'Group',
-      embed: 'code',
+      embed: 'invitation_code',
       attribute: 'code'
     }
   ]
