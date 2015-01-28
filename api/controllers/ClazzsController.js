@@ -7,7 +7,16 @@
 
 module.exports = {
 
-  resource: 'Clazz'
+  resource: 'Clazz',
+
+  join: [
+    {
+      model: 'Invitation',
+      type: 'Clazz',
+      embed: 'clazz_code',
+      attribute: 'code'
+    }
+  ]
 
 };
 
