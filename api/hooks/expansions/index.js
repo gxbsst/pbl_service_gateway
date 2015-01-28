@@ -212,15 +212,14 @@ module.exports = function (sails) {
 
           show: function (req, res) {
             //sails.models[resource.toLowerCase()].proxyShow(req, res);
-            var _include = req.query.include;
-            delete req.query.include;
+            //delete req.query.include;
             return res.fill(sails.models[resource.toLowerCase()].$$findOne({where: _.merge({_id: req.param('id')}, req.query)}).then(function (result) {
               var def = Promise.defer(),
                 props = {};
               if(!_.isEmpty(result)){
                 if(include && include.show){
                   _.each(include.show, function (info) {
-                    if (_.isString(_include) && _.contains(_include.split(','), info.param)) {
+                    if (_.isString(req.query.include) && _.contains(req.query.include.split(','), info.param)) {
                       var viaId = result[info.via];
                       if (viaId) {
                         if (info.include) {
