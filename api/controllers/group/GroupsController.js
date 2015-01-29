@@ -3,14 +3,22 @@ module.exports = {
   resource: 'Group.Group',
 
   include: {
-      show: [
-        {
-          param: 'clazzs',
-          model: 'Clazz',
-          via: 'owner_id',
-          embed: 'clazz'
-        }
-      ]
+    index: [
+      {
+        param: 'clazzs',
+        model: 'Clazz',
+        via: 'owner_id',
+        embed: 'clazz'
+      }
+    ],
+    show: [
+      {
+        param: 'clazzs',
+        model: 'Clazz',
+        via: 'owner_id',
+        embed: 'clazz'
+      }
+    ]
   },
 
   join: [
