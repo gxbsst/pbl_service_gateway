@@ -173,11 +173,15 @@ module.exports = function (sails) {
                           if (includedResult[info.via].data) {
                             var el = _.find(includedResult[info.via].data, {id: item[info.via]});
                             if (el && el.id) {
-                              delete item[info.via];
+                              if(!info.reserved){
+                                delete item[info.via];
+                              }
                               item[embed] = el;
                             }
                           } else if (_.isObject(includedResult[info.via])) {
-                            delete item[info.via];
+                            if(!info.reserved){
+                              delete item[info.via];
+                            }
                             item[embed] = includedResult[info.via];
                           }
                         }
@@ -259,11 +263,15 @@ module.exports = function (sails) {
                         if (includedResult[info.via].data) {
                           var el = _.find(includedResult[info.via].data, {id: result[info.via]});
                           if (el && el.id) {
-                            delete result[info.via];
+                            if(!info.reserved){
+                              delete result[info.via];
+                            }
                             result[embed] = el;
                           }
                         } else if (_.isObject(includedResult[info.via])) {
-                          delete result[info.via];
+                          if(!info.reserved){
+                            delete result[info.via];
+                          }
                           result[embed] = includedResult[info.via];
                         }
                       }

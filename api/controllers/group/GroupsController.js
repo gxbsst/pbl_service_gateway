@@ -8,6 +8,7 @@ module.exports = {
         param: 'clazzs',
         model: 'Clazz',
         via: 'owner_id',
+        reserved: true,
         embed: 'clazz'
       }
     ],
@@ -16,6 +17,7 @@ module.exports = {
         param: 'clazzs',
         model: 'Clazz',
         via: 'owner_id',
+        reserved: true,
         embed: 'clazz'
       }
     ]
