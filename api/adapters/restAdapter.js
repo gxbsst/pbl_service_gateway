@@ -98,7 +98,11 @@ module.exports = (function () {
     if (config.namespace) {
       ns += config.namespace + '/';
     }
-    return config.pathname + '/' + ns + _i.pluralize(config.resource) + (config.action ? '/' + config.action : '');
+    var resource = config.resource;
+    if (config.pluralize) {
+      resource = _i.pluralize(config.resource);
+    }
+    return config.pathname + '/' + ns + resource;
   }
 
   /**
@@ -165,6 +169,11 @@ module.exports = (function () {
     }
     config.namespace = config.namespace || '';
 
+    config.pluralize = sails.models[collectionName].pluralize;
+    if (!_.isBoolean(config.pluralize)) {
+      config.pluralize = true;
+    }
+
     values = pack(config, values);
 
     pathname = config.getPathname(config, restMethod, values, options);
@@ -211,6 +220,17 @@ module.exports = (function () {
       }
     }
 
+    // action path
+    if (options && options.action) {
+      pathname += '/actions/' + options.action;
+      delete options.action;
+    }
+
+    if (options && options.handler) {
+      pathname += '/' + options.handler;
+      delete options.handler;
+    }
+
     if (!opt && values) {
       opt = values;
 
@@ -227,19 +247,11 @@ module.exports = (function () {
 
     var cb = function (err, req, res, data) {
       var restError = RestError.handleError(err, req, res, data);
-      if (restError) {
-        callback(restError);
-      } else {
-        r = formatResult(data, collectionName, config, definition);
-
-        if (methodName === 'find') {
-          if (cache) {
-            cache.engine.set(uri, JSON.stringify(r));
-          }
-        }
-
-        callback(null, r);
+      r = formatResult(data, collectionName, config, definition);
+      if (!restError && methodName === 'find' && cache){
+        cache.engine.set(uri, JSON.stringify(r));
       }
+      callback(null, r);
     };
 
     var callRequest = function () {
@@ -394,6 +406,14 @@ module.exports = (function () {
 
     $destroy: function (connection, collectionName, options, values, cb) {
       makeRequest(connection, collectionName, 'destroy', cb, options);
+    },
+
+    $action: function (connection, collectionName, options, values, cb) {
+      var method = options.method;
+      if (method) {
+        delete options.method;
+      }
+      makeRequest(connection, collectionName, method || 'update', cb, options, values);
     },
 
     drop: function (connection, collectionName, relations, cb) {

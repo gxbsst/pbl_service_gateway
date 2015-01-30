@@ -49,7 +49,7 @@ module.exports.connections = {
     }
   },*/
 
-  baseServiceV1: {
+  localhostServiceV1: {
     adapter: 'rest',
     type: 'json',
     hostname: 'localhost',
@@ -69,7 +69,32 @@ module.exports.connections = {
     methods: {
       create: 'post',
       find: 'get',
-      update: 'put',
+      update: 'patch',
+      destroy: 'del'
+    }
+  },
+
+  lan120ServiceV1: {
+    adapter: 'rest',
+    type: 'json',
+    hostname: '172.172.172.120',
+    port: 3000,
+    protocol: 'http',
+    accept: 'application/vnd.ibridgebrige.com; version=1',
+    rejectUnauthorized: true,
+    maxSockets: 150,
+    requestTimeout: 95000,
+    pathname: '',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    resource: null,
+    action: null,
+    query: {},
+    methods: {
+      create: 'post',
+      find: 'get',
+      update: 'patch',
       destroy: 'del'
     }
   }
