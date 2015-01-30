@@ -268,7 +268,7 @@ module.exports = function (sails) {
                             }
                             result[embed] = el;
                           }
-                        } else if (_.isObject(includedResult[info.via])) {
+                        } else if (_.isObject(includedResult[info.via]) && !_.isEmpty(includedResult[info.via])) {
                           if(!info.reserved){
                             delete result[info.via];
                           }
