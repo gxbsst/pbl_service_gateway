@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.1
-lock '3.1.0'
+# lock '3.1.0'
 
 set :application, 'pbl_service_gateway'
 set :repo_url, 'git@124.202.141.250:pbl/pbl_service_gateway.git'
