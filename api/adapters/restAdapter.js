@@ -247,19 +247,11 @@ module.exports = (function () {
 
     var cb = function (err, req, res, data) {
       var restError = RestError.handleError(err, req, res, data);
-      if (restError) {
-        callback(restError);
-      } else {
-        r = formatResult(data, collectionName, config, definition);
-
-        if (methodName === 'find') {
-          if (cache) {
-            cache.engine.set(uri, JSON.stringify(r));
-          }
-        }
-
-        callback(null, r);
+      r = formatResult(data, collectionName, config, definition);
+      if (!restError && methodName === 'find' && cache){
+        cache.engine.set(uri, JSON.stringify(r));
       }
+      callback(null, r);
     };
 
     var callRequest = function () {
