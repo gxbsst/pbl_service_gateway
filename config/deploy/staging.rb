@@ -4,6 +4,10 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
+set :repo_url, 'git@172.172.172.62:pbl/pbl_service_gateway.git'
+set :branch, ENV['BRANCH'] || "master"
+set :deploy_to, '/var/www/pbl_service_gateway'
+
 role :app, %w{root@172.172.172.120}
 
 
