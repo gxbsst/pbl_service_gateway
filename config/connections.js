@@ -97,5 +97,30 @@ module.exports.connections = {
       update: 'patch',
       destroy: 'del'
     }
+  },
+
+  releaseServiceV1: {
+    adapter: 'rest',
+    type: 'json',
+    hostname: 'www.staging.pbl.org',
+    port: 80,
+    protocol: 'http',
+    accept: 'application/vnd.ibridgebrige.com; version=1',
+    rejectUnauthorized: true,
+    maxSockets: 150,
+    requestTimeout: 95000,
+    pathname: '',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    resource: null,
+    action: null,
+    query: {},
+    methods: {
+      create: 'post',
+      find: 'get',
+      update: 'patch',
+      destroy: 'del'
+    }
   }
 };

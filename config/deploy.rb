@@ -2,14 +2,14 @@
 # lock '3.1.0'
 
 set :application, 'pbl_service_gateway'
-set :repo_url, 'git@172.172.172.62:pbl/pbl_service_gateway.git'
+set :repo_url, 'git@58.246.127.90:pbl/pbl_service_gateway.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, ENV['BRANCH'] || "master"
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/var/www/pbl_service_gateway'
+set :deploy_to, '/home/deployer/pbl_service_gateway'
 # Default value for :scm is :git
 set :scm, :git
 
