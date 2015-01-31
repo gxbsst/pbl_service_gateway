@@ -243,7 +243,11 @@ module.exports = function (sails) {
                             }
                           });
                         } else {
-                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
+                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}}).then(function (result) {
+                            return result;
+                          }, function () {
+                            return {};
+                          });
                         }
                       }
                     }
@@ -256,6 +260,7 @@ module.exports = function (sails) {
                 }
 
                 Promise.props(props).then(function (includedResult) {
+                  //console.log(includedResult)
                   if(include && include.show){
                     _.each(include.show, function (info) {
                       var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
