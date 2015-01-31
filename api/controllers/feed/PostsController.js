@@ -2,6 +2,8 @@ module.exports = {
 
   resource: 'Feed.Post',
 
+
+
   include: {
     index: [
       {
