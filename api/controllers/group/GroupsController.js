@@ -10,6 +10,13 @@ module.exports = {
         via: 'owner_id',
         reserved: true,
         embed: 'clazz'
+      },
+      {
+        param: 'users',
+        model: 'User',
+        via: 'owner_id',
+        reserved: true,
+        embed: 'user'
       }
     ],
     show: [
@@ -19,6 +26,13 @@ module.exports = {
         via: 'owner_id',
         reserved: true,
         embed: 'clazz'
+      },
+      {
+        param: 'users',
+        model: 'User',
+        via: 'owner_id',
+        reserved: true,
+        embed: 'user'
       }
     ]
   },
