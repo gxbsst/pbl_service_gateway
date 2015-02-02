@@ -35,15 +35,6 @@ module.exports = {
         embed: 'user'
       }
     ]
-  },
-
-  join: [
-    {
-      model: 'Invitation',
-      type: 'Group',
-      embed: 'invitation_code',
-      attribute: 'code'
-    }
-  ]
+  }
 
 };
