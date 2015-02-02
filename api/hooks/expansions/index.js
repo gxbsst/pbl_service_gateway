@@ -332,50 +332,83 @@ module.exports = function (sails) {
             var _include = req.query.include;
             delete req.query.include;
             return res.fill(sails.models[resource.toLowerCase()].$$create(req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
-              var def = Promise.defer();
-              if (include && include.show && !_.isEmpty(result)) {
+              var def = Promise.defer(),
+                props = {};
+              if(!_.isEmpty(result)){
 
-                var props = {};
-                _.each(include.show, function (info) {
-                  if (_.isString(_include) && _.contains(_include.split(','), info.param)) {
-                    var viaId = result[info.via];
-                    if (viaId) {
-                      if (info.include) {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
-                          where: {
-                            _id: viaId,
-                            include: info.include
-                          }
-                        });
-                      } else {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
-                      }
-                    }
-                  }
-                });
-
-                Promise.props(props).then(function (includedResult) {
+                if(include && include.show){
                   _.each(include.show, function (info) {
-                    if (result[info.via] && includedResult[info.via]) {
-                      if (includedResult[info.via].data) {
-                        var el = _.find(includedResult[info.via].data, {id: result[info.via]});
-                        if (el && el.id) {
-                          delete result[info.via];
-                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                          result[embed] = el;
+                    if (info.model && _.isString(includeParams) && _.contains(includeParams.split(','), info.param)) {
+                      var viaId = result[info.via];
+                      if (viaId) {
+                        if (info.include) {
+                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({
+                            where: {
+                              _id: viaId,
+                              include: info.include
+                            }
+                          });
+                        } else {
+                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}}).then(function (result) {
+                            return result;
+                          }, function () {
+                            return {};
+                          });
                         }
-                      } else if (_.isObject(includedResult[info.via])) {
-                        delete result[info.via];
-                        var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                        result[embed] = includedResult[info.via];
                       }
                     }
                   });
+                }
+
+                if(join){
+                  _.each(join, function (info) {
+                    props[info.model] = sails.models[info.model.toLowerCase()].$$find({where: {owner_type: info.type, owner_id: result.id}});
+                  });
+                }
+
+                if(map){
+                  _.each(map, function (v, n) {
+                    result[v] = result[n];
+                    delete result[n];
+                  });
+                }
+
+                Promise.props(props).then(function (includedResult) {
+                  //console.log(includedResult)
+                  if(include && include.show){
+                    _.each(include.show, function (info) {
+                      var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                      if (result[info.via] && includedResult[info.via]) {
+                        if (includedResult[info.via].data) {
+                          var el = _.find(includedResult[info.via].data, {id: result[info.via]});
+                          if (el && el.id) {
+                            if(!info.reserved){
+                              delete result[info.via];
+                            }
+                            result[embed] = el;
+                          }
+                        } else if (_.isObject(includedResult[info.via]) && !_.isEmpty(includedResult[info.via])) {
+                          if(!info.reserved){
+                            delete result[info.via];
+                          }
+                          result[embed] = includedResult[info.via];
+                        }
+                      }
+                    });
+                  }
+                  if(join){
+                    _.each(join, function (info) {
+                      var embed = info.embed || info.model.toLowerCase(),
+                        data = includedResult[info.model].data;
+                      if(data[0]){
+                        result[embed] = info.attribute ? data[0][info.attribute] : data[0];
+                      }
+                    });
+                  }
                 }).finally(function () {
                   def.callback(null, result);
                 });
-
-              } else {
+              }else{
                 def.callback(null, result);
               }
               return def.promise;
@@ -387,50 +420,83 @@ module.exports = function (sails) {
             var _include = req.query.include;
             delete req.query.include;
             return res.fill(sails.models[resource.toLowerCase()].$$update({where: {_id: req.param('id')}}, req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
-              var def = Promise.defer();
-              if (include && include.show && !_.isEmpty(result)) {
+              var def = Promise.defer(),
+                props = {};
+              if(!_.isEmpty(result)){
 
-                var props = {};
-                _.each(include.show, function (info) {
-                  if (_.isString(_include) && _.contains(_include.split(','), info.param)) {
-                    var viaId = result[info.via];
-                    if (viaId) {
-                      if (info.include) {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({
-                          where: {
-                            _id: viaId,
-                            include: info.include
-                          }
-                        });
-                      } else {
-                        props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}});
-                      }
-                    }
-                  }
-                });
-
-                Promise.props(props).then(function (includedResult) {
+                if(include && include.show){
                   _.each(include.show, function (info) {
-                    if (result[info.via] && includedResult[info.via]) {
-                      if (includedResult[info.via].data) {
-                        var el = _.find(includedResult[info.via].data, {id: result[info.via]});
-                        if (el && el.id) {
-                          delete result[info.via];
-                          var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                          result[embed] = el;
+                    if (info.model && _.isString(includeParams) && _.contains(includeParams.split(','), info.param)) {
+                      var viaId = result[info.via];
+                      if (viaId) {
+                        if (info.include) {
+                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({
+                            where: {
+                              _id: viaId,
+                              include: info.include
+                            }
+                          });
+                        } else {
+                          props[info.via] = sails.models[info.model.toLowerCase()].$$find({where: {_id: viaId}}).then(function (result) {
+                            return result;
+                          }, function () {
+                            return {};
+                          });
                         }
-                      } else if (_.isObject(includedResult[info.via])) {
-                        delete result[info.via];
-                        var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
-                        result[embed] = includedResult[info.via];
                       }
                     }
                   });
+                }
+
+                if(join){
+                  _.each(join, function (info) {
+                    props[info.model] = sails.models[info.model.toLowerCase()].$$find({where: {owner_type: info.type, owner_id: result.id}});
+                  });
+                }
+
+                if(map){
+                  _.each(map, function (v, n) {
+                    result[v] = result[n];
+                    delete result[n];
+                  });
+                }
+
+                Promise.props(props).then(function (includedResult) {
+                  //console.log(includedResult)
+                  if(include && include.show){
+                    _.each(include.show, function (info) {
+                      var embed = info.embed || info.via.substring(0, info.via.lastIndexOf('_id'));
+                      if (result[info.via] && includedResult[info.via]) {
+                        if (includedResult[info.via].data) {
+                          var el = _.find(includedResult[info.via].data, {id: result[info.via]});
+                          if (el && el.id) {
+                            if(!info.reserved){
+                              delete result[info.via];
+                            }
+                            result[embed] = el;
+                          }
+                        } else if (_.isObject(includedResult[info.via]) && !_.isEmpty(includedResult[info.via])) {
+                          if(!info.reserved){
+                            delete result[info.via];
+                          }
+                          result[embed] = includedResult[info.via];
+                        }
+                      }
+                    });
+                  }
+                  if(join){
+                    _.each(join, function (info) {
+                      var embed = info.embed || info.model.toLowerCase(),
+                        data = includedResult[info.model].data;
+                      if(data[0]){
+                        result[embed] = info.attribute ? data[0][info.attribute] : data[0];
+                      }
+                    });
+                  }
                 }).finally(function () {
                   def.callback(null, result);
                 });
-
-              } else {
+              }else{
                 def.callback(null, result);
               }
               return def.promise;
