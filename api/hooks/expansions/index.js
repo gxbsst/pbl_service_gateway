@@ -117,7 +117,7 @@ module.exports = function (sails) {
         _.extend(model, modelExpansion);
       });
 
-      var extendController = function (resource, include, join) {
+      var extendController = function (resource, include, join, map) {
         return {
           index: function (req, res) {
             // sails.models[resource.toLowerCase()].proxyIndex(req, res);
@@ -164,6 +164,15 @@ module.exports = function (sails) {
                   });
                 }
 
+                if(_.isEmpty(props) && map){
+                  _.each(result.data, function (item) {
+                    _.each(map, function (v, n) {
+                      item[v] = item[n];
+                      delete item[n];
+                    });
+                  });
+                }
+
                 Promise.props(props).then(function (includedResult) {
                   _.each(result.data, function (item) {
                     if(include && include.index){
@@ -187,6 +196,7 @@ module.exports = function (sails) {
                         }
                       });
                     }
+
                     if(join){
                       _.each(join, function (info) {
                         var embed = info.embed || info.model.toLowerCase();
@@ -198,6 +208,13 @@ module.exports = function (sails) {
                         } else if (_.isObject(includedResult[info.model])) {
                           item[embed] = includedResult[info.model][info.attribute];
                         }
+                      });
+                    }
+
+                    if(map){
+                      _.each(map, function (v, n) {
+                        item[v] = item[n];
+                        delete item[n];
                       });
                     }
                   });
@@ -230,6 +247,7 @@ module.exports = function (sails) {
               var def = Promise.defer(),
                 props = {};
               if(!_.isEmpty(result)){
+
                 if(include && include.show){
                   _.each(include.show, function (info) {
                     if (info.model && _.isString(includeParams) && _.contains(includeParams.split(','), info.param)) {
@@ -253,9 +271,17 @@ module.exports = function (sails) {
                     }
                   });
                 }
+
                 if(join){
                   _.each(join, function (info) {
                     props[info.model] = sails.models[info.model.toLowerCase()].$$find({where: {owner_type: info.type, owner_id: result.id}});
+                  });
+                }
+
+                if(map){
+                  _.each(map, function (v, n) {
+                    result[v] = result[n];
+                    delete result[n];
                   });
                 }
 
@@ -420,7 +446,7 @@ module.exports = function (sails) {
       _.each(sails.controllers, function eachController(controller) {
         if (controller.resource) {
           // 扩展 controller
-          _.defaults(controller, extendController(controller.resource, controller.include, controller.join));
+          _.defaults(controller, extendController(controller.resource, controller.include, controller.join, controller.attributes_map));
         }
       });
     }

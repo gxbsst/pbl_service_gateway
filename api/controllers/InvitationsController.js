@@ -7,7 +7,11 @@
 
 module.exports = {
 
-  resource: 'Invitation'
+  resource: 'Invitation',
+
+  attributes_map: {
+    code: 'invitation_code'
+  }
 
 };
 
