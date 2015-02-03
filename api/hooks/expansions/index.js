@@ -329,8 +329,16 @@ module.exports = function (sails) {
 
           create: function (req, res) {
             //sails.models[resource.toLowerCase()].proxyCreate(req, res);
-            var _include = req.query.include;
-            delete req.query.include;
+            var includeParams = req.query.include;
+            if(includeParams){
+              var allows = ['member_ships'],
+                allowedParams = _.intersection(includeParams.split(','), allows).join();
+              if(allowedParams){
+                req.query.include = allowedParams;
+              }else{
+                delete req.query.include;
+              }
+            }
             return res.fill(sails.models[resource.toLowerCase()].$$create(req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
               var def = Promise.defer(),
                 props = {};
@@ -417,8 +425,16 @@ module.exports = function (sails) {
 
           update: function (req, res) {
             //sails.models[resource.toLowerCase()].proxyUpdate(req, res);
-            var _include = req.query.include;
-            delete req.query.include;
+            var includeParams = req.query.include;
+            if(includeParams){
+              var allows = ['member_ships'],
+                allowedParams = _.intersection(includeParams.split(','), allows).join();
+              if(allowedParams){
+                req.query.include = allowedParams;
+              }else{
+                delete req.query.include;
+              }
+            }
             return res.fill(sails.models[resource.toLowerCase()].$$update({where: {_id: req.param('id')}}, req.body[sails.models[resource.toLowerCase()].getModelResource()]).then(function (result) {
               var def = Promise.defer(),
                 props = {};
