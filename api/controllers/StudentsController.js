@@ -15,6 +15,23 @@ module.exports = {
         param: 'clazzs',
         model: 'Clazz',
         via: 'clazz_id'
+      },
+      {
+        param: 'users',
+        model: 'User',
+        via: 'user_id'
+      }
+    ],
+    show: [
+      {
+        param: 'clazzs',
+        model: 'Clazz',
+        via: 'clazz_id'
+      },
+      {
+        param: 'users',
+        model: 'User',
+        via: 'user_id'
       }
     ]
   }
